@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <UserSecretsId>59e20c34-2170-499a-be0a-b2ae3daaa8d7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lemoncode.LibraryExample.DataAccess\Lemoncode.LibraryExample.DataAccess.csproj" />
+    <ProjectReference Include="..\Lemoncode.LibraryExample.Domain.Entities\Lemoncode.LibraryExample.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Lemoncode.LibraryExample.Domain\Lemoncode.LibraryExample.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
