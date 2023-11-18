@@ -10,6 +10,7 @@ namespace Lemoncode.LibraryExample.Domain.Services
 		private readonly IBookRepository _repository;
 
 		private readonly IUnitOfWork _unitOfWork;
+
 		public BookService(IBookRepository repository, IUnitOfWork unitOfWork)
 		{
 			_repository = repository;

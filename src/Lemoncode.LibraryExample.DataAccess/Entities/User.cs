@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Domain.Entities;
+﻿namespace Lemoncode.LibraryExample.DataAccess.Entities;
 
 public class User
 {
@@ -11,4 +11,5 @@ public class User
 
 	public required string Email { get; set; }
 	
+	public ICollection<BookDownload>? BookDownloads { get; set; }
 }

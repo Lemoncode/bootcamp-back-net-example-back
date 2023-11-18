@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Domain.Entities;
+﻿namespace Lemoncode.LibraryExample.DataAccess.Entities;
 
 public class Author
 {
@@ -8,4 +8,5 @@ public class Author
 
 	public required string LastName { get; set; }
 
+	public required ICollection<Book> Books { get; set; }
 }

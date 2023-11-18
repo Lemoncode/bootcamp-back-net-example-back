@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories
+namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
+
+public interface IAuthorRepository
 {
-	internal interface IAuthorRepository
-	{
-	}
 }

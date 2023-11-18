@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lemoncode.LibraryExample.Crosscutting\Lemoncode.LibraryExample.Crosscutting.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain.Entities\Lemoncode.LibraryExample.Domain.Entities.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain\Lemoncode.LibraryExample.Domain.csproj" />
   </ItemGroup>

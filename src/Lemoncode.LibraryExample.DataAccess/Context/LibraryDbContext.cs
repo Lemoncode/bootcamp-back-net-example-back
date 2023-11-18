@@ -1,4 +1,4 @@
-﻿using Lemoncode.LibraryExample.Domain.Entities;
+﻿using Lemoncode.LibraryExample.DataAccess.Entities;
 
 using Microsoft.EntityFrameworkCore;
 

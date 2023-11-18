@@ -13,7 +13,7 @@ public interface IBookRepository
 
 	Task<IEnumerable<Book>> GetMostDownloadedBooksAsync();
 
-	Task AddBook(Book book);
+	void AddBook(Book book);
 
-	void DeleteBook(Book book);
+	Task DeleteBook(int bookId);
 }
