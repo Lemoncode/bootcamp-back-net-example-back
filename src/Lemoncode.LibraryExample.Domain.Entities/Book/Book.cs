@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Domain.Entities;
+﻿namespace Lemoncode.LibraryExample.Domain.Entities.Book;
 
 public class Book
 {
@@ -16,6 +16,6 @@ public class Book
 	public required ICollection<Author> Authors { get; set; }
 
 	public required ICollection<Review> Reviews { get; set; }
-	
+
 	public required ICollection<BookDownload> Downloads { get; set; }
 }

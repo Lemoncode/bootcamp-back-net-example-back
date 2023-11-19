@@ -1,4 +1,4 @@
-namespace Lemoncode.LibraryExample.Web
+namespace Lemoncode.LibraryExample.Api
 {
 	public class WeatherForecast
 	{

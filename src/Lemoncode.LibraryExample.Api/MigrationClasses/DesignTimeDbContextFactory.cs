@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Lemoncode.LibraryExample.Web;
+namespace Lemoncode.LibraryExample.Api;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<LibraryDbContext>
 {

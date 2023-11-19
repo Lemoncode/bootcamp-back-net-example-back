@@ -1,18 +1,21 @@
 ﻿using Lemoncode.LibraryExample.Domain.Entities;
+using Lemoncode.LibraryExample.Domain.Entities.Book;
 
 namespace Lemoncode.LibraryExample.Domain.Abstractions.Services;
 
 public interface IBookService
 {
-	Task<IEnumerable<Book>> GetNoveltiesAsync(int limit);
+	Task<IEnumerable<Book>> GetNovelties(int limit);
 
-	Task<IEnumerable<Book>> SearchByTitleAsync(string text);
+	Task<IEnumerable<Book>> Search(string text);
 
-	Task<IEnumerable<Book>> GetTopRatedBooksAsync();
+	Task<IEnumerable<Book>> GetTopRatedBooks();
 
 	Task<IEnumerable<Book>> GetMostDownloadedBooksAsync();
 
-	Task AddBook(Book book);
+	Task<int> AddBook(AddOrEditBook book);
 
-	void DeleteBook(Book book);
+	Task EditBook(int bookId, AddOrEditBook book);
+
+	Task DeleteBook(int bookId);
 }

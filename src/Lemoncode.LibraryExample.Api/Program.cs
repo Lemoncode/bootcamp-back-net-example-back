@@ -1,3 +1,4 @@
+using Lemoncode.LibraryExample.Application.Extensions;
 using Lemoncode.LibraryExample.DataAccess.Context;
 
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContextFactory<LibraryDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
-builder.Services.AddControllers();
+builder.Services.AddAutoMapper(
+	typeof(Lemoncode.LibraryExample.Application.MappingProfiles.AuthorMappingProfile).Assembly,
+	typeof(Lemoncode.LibraryExample.DataAccess.MappingProfiles.AuthorMappingProfile).Assembly,
+	typeof(Lemoncode.LibraryExample.Crosscutting.MappingProfiles.PaginatedResultsMappingProfile).Assembly);
+builder.Services.RegisterUtilities()
+	.RegisterRepositories()
+	.RegisterDomainServices()
+	.RegisterAppServices()
+	.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

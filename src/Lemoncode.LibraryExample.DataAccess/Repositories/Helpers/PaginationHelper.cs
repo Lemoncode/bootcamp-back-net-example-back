@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 
-public class PaginationHelper
+public class PaginationHelper : IPaginationHelper
 {
 
 	public void CheckPaginationValidity(int resultsPerPage, int pageNumber)

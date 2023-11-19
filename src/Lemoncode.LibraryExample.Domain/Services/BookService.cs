@@ -1,50 +1,85 @@
-﻿using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
+﻿using AutoMapper;
+
+using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Services;
-using Lemoncode.LibraryExample.Domain.Entities;
+using Lemoncode.LibraryExample.Domain.Entities.Book;
+using Lemoncode.LibraryExample.Domain.Exceptions;
 
-namespace Lemoncode.LibraryExample.Domain.Services
+namespace Lemoncode.LibraryExample.Domain.Services;
+
+public class BookService : IBookService
 {
-	public class BookService : IBookService
+
+	private readonly IBookRepository _bookRepository;
+
+	private readonly IUnitOfWork _unitOfWork;
+	
+	private readonly IAuthorRepository _authorRepository;
+
+
+	public BookService(IBookRepository repository, IUnitOfWork unitOfWork, IAuthorRepository authorRepository)
 	{
+		_bookRepository = repository;
+		_unitOfWork = unitOfWork;
+		_authorRepository = authorRepository;
+	}
 
-		private readonly IBookRepository _repository;
+	public async Task<IEnumerable<Book>> GetMostDownloadedBooksAsync()
+	{
+		return await _bookRepository.GetMostDownloadedBooksAsync();
+	}
 
-		private readonly IUnitOfWork _unitOfWork;
+	public async Task<IEnumerable<Book>> GetNovelties(int limit)
+	{
+		return await _bookRepository.GetNovelties(limit);
+	}
 
-		public BookService(IBookRepository repository, IUnitOfWork unitOfWork)
+	public async Task<IEnumerable<Book>> GetTopRatedBooks()
+	{
+		return await _bookRepository.GetTopRatedBooks();
+	}
+
+	public async Task<IEnumerable<Book>> Search(string text)
+	{
+		return await _bookRepository.Search(text);
+	}
+
+	public async Task<int> AddBook(AddOrEditBook book)
+	{
+		if (!await _authorRepository.AuthorsExist(book.AuthorIds))
 		{
-			_repository = repository;
-			_unitOfWork = unitOfWork;
+			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
 
-		public Task AddBook(Book book)
+		var id = await _bookRepository.AddBook(book);
+		await _unitOfWork.CommitAsync();
+		return id;
+	}
+
+	public async Task EditBook(int bookId, AddOrEditBook book)
+	{
+		if (!await _bookRepository.BookExists(bookId))
 		{
-			throw new NotImplementedException();
+			throw new EntityNotFoundException($"The book with ID {bookId} does not exist in the database.");
 		}
 
-		public void DeleteBook(Book book)
+		if (!await _authorRepository.AuthorsExist(book.AuthorIds))
 		{
-			throw new NotImplementedException();
+			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
 
-		public Task<IEnumerable<Book>> GetMostDownloadedBooksAsync()
+		await _bookRepository.EditBook(bookId, book);
+		await _unitOfWork.CommitAsync();
+	}
+
+	public async Task DeleteBook(int bookId)
+	{
+		if (!await _bookRepository.BookExists(bookId))
 		{
-			throw new NotImplementedException();
+			throw new EntityNotFoundException($"The book with ID {bookId} does not exist in the database.");
 		}
 
-		public Task<IEnumerable<Book>> GetNoveltiesAsync(int limit)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<Book>> GetTopRatedBooksAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<Book>> SearchByTitleAsync(string text)
-		{
-			throw new NotImplementedException();
-		}
+		await _bookRepository.DeleteBook(bookId);
+		await _unitOfWork.CommitAsync();
 	}
 }

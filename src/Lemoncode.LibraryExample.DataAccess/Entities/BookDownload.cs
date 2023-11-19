@@ -1,6 +1,8 @@
-﻿namespace Lemoncode.LibraryExample.DataAccess.Entities;
+﻿using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 
-public class BookDownload
+namespace Lemoncode.LibraryExample.DataAccess.Entities;
+
+public class BookDownload : IIdentifiable
 {
 
 	public int Id { get; set; }

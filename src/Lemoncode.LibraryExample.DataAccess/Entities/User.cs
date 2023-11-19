@@ -1,6 +1,8 @@
-﻿namespace Lemoncode.LibraryExample.DataAccess.Entities;
+﻿using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 
-public class User
+namespace Lemoncode.LibraryExample.DataAccess.Entities;
+
+public class User : IIdentifiable
 {
 
 	public int Id { get; set; }

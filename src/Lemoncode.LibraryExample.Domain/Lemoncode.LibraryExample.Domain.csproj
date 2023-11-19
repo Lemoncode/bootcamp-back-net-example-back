@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lemoncode.LibraryExample.Crosscutting\Lemoncode.LibraryExample.Crosscutting.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain.Entities\Lemoncode.LibraryExample.Domain.Entities.csproj" />
   </ItemGroup>
 
