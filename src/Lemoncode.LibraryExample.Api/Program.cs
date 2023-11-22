@@ -9,14 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContextFactory<LibraryDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
-builder.Services.AddAutoMapper(
-	typeof(Lemoncode.LibraryExample.Application.MappingProfiles.AuthorMappingProfile).Assembly,
-	typeof(Lemoncode.LibraryExample.DataAccess.MappingProfiles.AuthorMappingProfile).Assembly,
-	typeof(Lemoncode.LibraryExample.Crosscutting.MappingProfiles.PaginatedResultsMappingProfile).Assembly);
-builder.Services.RegisterUtilities()
-	.RegisterRepositories()
-	.RegisterDomainServices()
-	.RegisterAppServices()
+builder.Services.AddMappings()
+	.AddUtilities()
+	.AddRepositories()
+	.AddDomainServices()
+	.AddAppServices()
 	.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

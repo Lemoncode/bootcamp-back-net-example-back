@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using Lemoncode.LibraryExample.Application.Dtos;
-using Lemoncode.LibraryExample.Domain.Entities.Book;
+using Lemoncode.LibraryExample.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

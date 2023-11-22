@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.Domain.Entities.Book;
+namespace Lemoncode.LibraryExample.Domain.Entities;
 
 public class AddOrEditBook
 {

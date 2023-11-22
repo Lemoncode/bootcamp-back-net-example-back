@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +20,7 @@ public class AddOrEditBookDto
 	public string? ImageAltText { get; set; }
 
 	public required DateTime Created { get; set; }
+
+	public required IFormFile Image {  get; set; }
 
 }

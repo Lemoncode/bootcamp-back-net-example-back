@@ -15,8 +15,7 @@ public class AuthorMappingProfile : Profile
 
 	public AuthorMappingProfile()
 	{
-		CreateMap<Author, AuthorDto>();
-		CreateMap<AuthorDto, Author>();
+		CreateMap<Author, AuthorDto>().ReverseMap();
 		CreateMap<AuthorWithBookCount, AuthorWithBookCountDto>();
 	}
 }

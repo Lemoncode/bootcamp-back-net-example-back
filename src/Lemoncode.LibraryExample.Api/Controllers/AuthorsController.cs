@@ -35,7 +35,7 @@ public class AuthorsController : ControllerBase
 		{
 			var id = await _authorService.AddAuthor(author);
 			author.Id = id;
-			return Ok(author);
+		return Ok(author);
 		}
 		catch (Exception ex)
 		{

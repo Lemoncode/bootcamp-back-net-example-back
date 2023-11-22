@@ -1,7 +1,6 @@
 ﻿using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Entities;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

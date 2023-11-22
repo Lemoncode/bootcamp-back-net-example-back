@@ -2,8 +2,7 @@
 
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos;
-using Lemoncode.LibraryExample.Domain.Entities.Book;
-
+using Lemoncode.LibraryExample.Domain.Entities;
 using DomServices = Lemoncode.LibraryExample.Domain.Abstractions.Services;
 
 namespace Lemoncode.LibraryExample.Application.Services;

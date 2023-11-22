@@ -1,5 +1,4 @@
 ﻿using Lemoncode.LibraryExample.Domain.Entities;
-using Lemoncode.LibraryExample.Domain.Entities.Book;
 
 namespace Lemoncode.LibraryExample.Domain.Abstractions.Services;
 

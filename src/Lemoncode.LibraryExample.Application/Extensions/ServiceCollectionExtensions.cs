@@ -18,20 +18,24 @@ namespace Lemoncode.LibraryExample.Application.Extensions;
 public static class ServiceCollectionExtensions
 {
 
-	public static IServiceCollection RegisterMapping(this IServiceCollection serviceCollection)
+	public static IServiceCollection AddMappings(this IServiceCollection serviceCollection)
 	{
-		serviceCollection.AddAutoMapper(typeof(MappingProfiles.AuthorMappingProfile).Assembly, typeof(DataAccess.MappingProfiles.AuthorMappingProfile).Assembly);
+		serviceCollection.AddAutoMapper(
+			typeof(Lemoncode.LibraryExample.Application.MappingProfiles.AuthorMappingProfile).Assembly,
+			typeof(Lemoncode.LibraryExample.DataAccess.MappingProfiles.AuthorMappingProfile).Assembly,
+			typeof(Lemoncode.LibraryExample.Crosscutting.MappingProfiles.PaginatedResultsMappingProfile).Assembly);
+
 		return serviceCollection;
 	}
 
-	public static IServiceCollection RegisterUtilities(this IServiceCollection serviceCollection)
+	public static IServiceCollection AddUtilities(this IServiceCollection serviceCollection)
 	{
 		serviceCollection.AddSingleton<IPaginationHelper, PaginationHelper>();
 
 		return serviceCollection;
 	}
 
-	public static IServiceCollection RegisterRepositories(this IServiceCollection serviceCollection)
+	public static IServiceCollection AddRepositories(this IServiceCollection serviceCollection)
 	{
 		serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 		serviceCollection.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -40,7 +44,7 @@ public static class ServiceCollectionExtensions
 		return serviceCollection;
 	}
 
-	public static IServiceCollection RegisterDomainServices(this IServiceCollection serviceCollection)
+	public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection)
 	{
 		serviceCollection.AddScoped<DomServiceAbstractions.IAuthorService, DomServices.AuthorService>();
 		serviceCollection.AddScoped<DomServiceAbstractions.IBookService, DomServices.BookService>();
@@ -48,7 +52,7 @@ public static class ServiceCollectionExtensions
 		return serviceCollection;
 	}
 
-	public static IServiceCollection RegisterAppServices(this IServiceCollection serviceCollection)
+	public static IServiceCollection AddAppServices(this IServiceCollection serviceCollection)
 	{
 		serviceCollection.AddScoped<appServiceAbstractions.IAuthorService, AppServices.AuthorService>();
 		serviceCollection.AddScoped<appServiceAbstractions.IBookService, AppServices.BookService>();

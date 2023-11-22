@@ -1,4 +1,5 @@
-﻿using Lemoncode.LibraryExample.Domain.Entities.Book;
+﻿using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
+using Lemoncode.LibraryExample.Domain.Entities;
 
 namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 
@@ -13,7 +14,7 @@ public interface IBookRepository
 
 	Task<IEnumerable<Book>> GetMostDownloadedBooksAsync();
 
-	Task<int> AddBook(AddOrEditBook book);
+	Task<IIdentifiable> AddBook(AddOrEditBook book);
 
 	Task EditBook(int bookId, AddOrEditBook book);
 

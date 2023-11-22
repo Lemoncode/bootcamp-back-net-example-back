@@ -2,7 +2,6 @@
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Services;
 using Lemoncode.LibraryExample.Domain.Entities;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

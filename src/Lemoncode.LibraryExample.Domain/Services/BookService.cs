@@ -2,7 +2,7 @@
 
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Services;
-using Lemoncode.LibraryExample.Domain.Entities.Book;
+using Lemoncode.LibraryExample.Domain.Entities;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
 namespace Lemoncode.LibraryExample.Domain.Services;
@@ -51,9 +51,9 @@ public class BookService : IBookService
 			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
 
-		var id = await _bookRepository.AddBook(book);
+		var identifiableEntity = await _bookRepository.AddBook(book);
 		await _unitOfWork.CommitAsync();
-		return id;
+		return identifiableEntity.Id;
 	}
 
 	public async Task EditBook(int bookId, AddOrEditBook book)

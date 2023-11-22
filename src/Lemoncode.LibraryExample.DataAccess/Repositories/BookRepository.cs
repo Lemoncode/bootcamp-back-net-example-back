@@ -4,8 +4,9 @@ using AutoMapper.QueryableExtensions;
 using Lemoncode.LibraryExample.DataAccess.Context;
 using Lemoncode.LibraryExample.DataAccess.Extensions.EntityExtensions;
 using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
+using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
-using Lemoncode.LibraryExample.Domain.Entities.Book;
+using Lemoncode.LibraryExample.Domain.Entities;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +65,7 @@ public class BookRepository : IBookRepository
 		return await _context.Books.AnyAsync(b => b.Id == bookId);
 	}
 
-	public async Task<int> AddBook(AddOrEditBook book)
+	public async Task<IIdentifiable> AddBook(AddOrEditBook book)
 	{
 		ArgumentNullException.ThrowIfNull(book, nameof(book));
 		var dalBook = _mapper.Map<DalEntities.Book>(book);
@@ -85,7 +86,7 @@ public class BookRepository : IBookRepository
 
 		dalBook.Authors = authors;
 		_context.Books.Add(dalBook);
-		return dalBook.Id;
+		return dalBook;
 	}
 
 	public async Task EditBook(int bookId, AddOrEditBook book)
