@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using DomEntities = Lemoncode.LibraryExample.Domain.Entities;
+
+using Lemoncode.LibraryExample.Domain.Entities.Authors;
+
 using DalEntities = Lemoncode.LibraryExample.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lemoncode.LibraryExample.Domain.Entities;
 
 namespace Lemoncode.LibraryExample.DataAccess.MappingProfiles;
 

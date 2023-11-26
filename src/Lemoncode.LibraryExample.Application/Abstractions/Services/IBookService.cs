@@ -1,4 +1,7 @@
-﻿using Lemoncode.LibraryExample.Application.Dtos;
+﻿using FluentValidation.Results;
+
+using Lemoncode.LibraryExample.Application.Dtos.Books;
+using Microsoft.AspNetCore.Http;
 
 namespace Lemoncode.LibraryExample.Application.Abstractions.Services;
 
@@ -16,5 +19,5 @@ public interface IBookService
 	
 	Task<IEnumerable<BookDto>> GetTopRatedBooksAsync();
 
-	Task<IEnumerable<BookDto>> SearchByTitleAsync(string text);
+	Task<(ValidationResult ValidationResult, string ImageId)> UploadBookImage(IFormFile file);
 }

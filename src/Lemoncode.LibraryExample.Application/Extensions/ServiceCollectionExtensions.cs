@@ -12,6 +12,9 @@ using DomServiceAbstractions = Lemoncode.LibraryExample.Domain.Abstractions.Serv
 using AppServices = Lemoncode.LibraryExample.Application.Services;
 using appServiceAbstractions = Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
+using Microsoft.Extensions.Configuration;
+using Lemoncode.LibraryExample.Application.Config.Validators;
+using Lemoncode.LibraryExample.Application.Validators.Books;
 
 namespace Lemoncode.LibraryExample.Application.Extensions;
 
@@ -49,6 +52,11 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<DomServiceAbstractions.IAuthorService, DomServices.AuthorService>();
 		serviceCollection.AddScoped<DomServiceAbstractions.IBookService, DomServices.BookService>();
 
+		return serviceCollection;
+	}
+	public static IServiceCollection AddValidatorConfigurations(this IServiceCollection serviceCollection, IConfiguration configuration)
+	{
+		serviceCollection.Configure<BookImageUploadDtoValidatorConfig>(configuration.GetSection(BookImageUploadDtoValidatorConfig.ConfigSection));
 		return serviceCollection;
 	}
 

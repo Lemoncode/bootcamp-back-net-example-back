@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Application.Dtos;
+﻿namespace Lemoncode.LibraryExample.Application.Dtos.Books;
 
 public class BookDto
 {

@@ -1,6 +1,5 @@
 ﻿using Lemoncode.LibraryExample.Application.Abstractions.Services;
-using Lemoncode.LibraryExample.Application.Dtos;
-
+using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

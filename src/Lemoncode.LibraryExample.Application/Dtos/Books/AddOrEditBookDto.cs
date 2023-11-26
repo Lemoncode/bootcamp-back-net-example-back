@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.Application.Dtos;
+namespace Lemoncode.LibraryExample.Application.Dtos.Books;
 
 public class AddOrEditBookDto
 {
@@ -21,6 +21,5 @@ public class AddOrEditBookDto
 
 	public required DateTime Created { get; set; }
 
-	public required IFormFile Image {  get; set; }
 
 }

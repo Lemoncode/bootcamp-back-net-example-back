@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Domain.Entities;
+﻿namespace Lemoncode.LibraryExample.Domain.Entities.Authors;
 
 public class Author
 {

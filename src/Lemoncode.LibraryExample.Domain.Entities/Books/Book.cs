@@ -1,4 +1,6 @@
-﻿namespace Lemoncode.LibraryExample.Domain.Entities;
+﻿using Lemoncode.LibraryExample.Domain.Entities.Authors;
+
+namespace Lemoncode.LibraryExample.Domain.Entities;
 
 public class Book
 {

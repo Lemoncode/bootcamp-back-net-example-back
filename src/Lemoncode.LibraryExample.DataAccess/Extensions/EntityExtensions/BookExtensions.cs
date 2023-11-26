@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lemoncode.LibraryExample.Domain.Entities;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
 
 namespace Lemoncode.LibraryExample.DataAccess.Extensions.EntityExtensions;
 

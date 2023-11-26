@@ -1,4 +1,4 @@
-﻿using Lemoncode.LibraryExample.Application.Dtos;
+﻿using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Lemoncode.LibraryExample.Crosscutting;
 
 namespace Lemoncode.LibraryExample.Application.Abstractions.Services

@@ -1,12 +1,7 @@
 ﻿using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Services;
-using Lemoncode.LibraryExample.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Lemoncode.LibraryExample.Domain.Entities.Authors;
 
 namespace Lemoncode.LibraryExample.Domain.Services;
 

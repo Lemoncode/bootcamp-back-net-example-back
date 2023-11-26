@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-
-using Lemoncode.LibraryExample.Application.Dtos;
+using Lemoncode.LibraryExample.Application.Dtos.Books;
 using Lemoncode.LibraryExample.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
+
+using Microsoft.AspNetCore.Http;
 
 namespace Lemoncode.LibraryExample.Application.MappingProfiles;
 
@@ -15,9 +12,9 @@ public class BookMappingProfile : Profile
 
 	public BookMappingProfile()
 	{
-		CreateMap<Book, BookDto>();
-		CreateMap<BookDto, Book>();
-		CreateMap<AddOrEditBook, AddOrEditBookDto>();
-		CreateMap<AddOrEditBookDto, AddOrEditBook>();
+		CreateMap<Book, BookDto>().ReverseMap();
+		CreateMap<AddOrEditBook, AddOrEditBookDto>().ReverseMap();
+		CreateMap<IFormFile, BookImageUploadDto>()
+			.ForMember(d => d.BinaryData, opt => opt.MapFrom(s =>  s.OpenReadStream()));
 	}
 }

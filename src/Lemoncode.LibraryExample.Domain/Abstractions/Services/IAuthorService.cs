@@ -1,5 +1,6 @@
 ﻿using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Entities;
+using Lemoncode.LibraryExample.Domain.Entities.Authors;
 
 namespace Lemoncode.LibraryExample.Domain.Abstractions.Services;
 

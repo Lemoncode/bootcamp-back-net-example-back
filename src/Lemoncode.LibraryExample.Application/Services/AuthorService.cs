@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
-using Lemoncode.LibraryExample.Application.Dtos;
+using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Lemoncode.LibraryExample.Crosscutting;
-using Lemoncode.LibraryExample.Domain.Entities;
+using Lemoncode.LibraryExample.Domain.Entities.Authors;
 using DomServiceAbstractions = Lemoncode.LibraryExample.Domain.Abstractions.Services;
 
 namespace Lemoncode.LibraryExample.Application.Services;

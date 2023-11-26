@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 
+using FluentValidation.Results;
+
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
-using Lemoncode.LibraryExample.Application.Dtos;
-using Lemoncode.LibraryExample.Domain.Entities;
+using Lemoncode.LibraryExample.Application.Dtos.Books;
+using Lemoncode.LibraryExample.Application.Validators.Books;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
+using Microsoft.AspNetCore.Http;
+
 using DomServices = Lemoncode.LibraryExample.Domain.Abstractions.Services;
 
 namespace Lemoncode.LibraryExample.Application.Services;
@@ -14,10 +19,13 @@ public class BookService : IBookService
 
 	private readonly IMapper _mapper;
 
-	public BookService(DomServices.IBookService bookDomainService, IMapper mapper)
+	private readonly BookImageUploadDtoValidator _bookImageUploadDtoValidator;
+
+	public BookService(DomServices.IBookService bookDomainService, IMapper mapper, BookImageUploadDtoValidator bookImageUploadDtoValidator)
 	{
 		_bookDomainService = bookDomainService;
 		_mapper = mapper;
+		_bookImageUploadDtoValidator = bookImageUploadDtoValidator;
 	}
 
 	public Task<int> AddBook(AddOrEditBookDto book)
@@ -57,5 +65,14 @@ public class BookService : IBookService
 	{
 		var result = await _bookDomainService.Search(text);
 		return _mapper.Map<IEnumerable<BookDto>>(result);
+	}
+
+	public async Task<(ValidationResult ValidationResult, string ImageId)> UploadBookImage(IFormFile file)
+	{
+		ArgumentNullException.ThrowIfNull(file, nameof(file));
+
+		var bookImageUploadDto = _mapper.Map<BookImageUploadDto>(file);
+		var validationResult = await _bookImageUploadDtoValidator.ValidateAsync(bookImageUploadDto);
+		return (validationResult, "abcd");
 	}
 }

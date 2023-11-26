@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.Application.Dtos;
+namespace Lemoncode.LibraryExample.Application.Dtos.Authors;
 
 public class AuthorWithBookCountDto
 {
