@@ -72,8 +72,8 @@ public class BookService : IBookService
 		}
 		
 		var identifiableEntity = await _bookRepository.AddBook(book);
-		_bookImageRepository.AssignImageToBook(identifiableEntity.Id, book.TempImageFileName);
 		await _unitOfWork.CommitAsync();
+		_bookImageRepository.AssignImageToBook(identifiableEntity.Id, book.TempImageFileName);
 		return identifiableEntity.Id;
 	}
 
