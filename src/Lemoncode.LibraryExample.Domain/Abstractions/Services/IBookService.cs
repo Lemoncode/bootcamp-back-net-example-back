@@ -5,6 +5,10 @@ namespace Lemoncode.LibraryExample.Domain.Abstractions.Services;
 
 public interface IBookService
 {
+	(Stream Stream, string FileName) GetBookImage(int bookId);
+
+	Task<Book> GetBook(int bookId);
+
 	Task<IEnumerable<Book>> GetNovelties(int limit);
 
 	Task<IEnumerable<Book>> Search(string text);
@@ -13,7 +17,7 @@ public interface IBookService
 
 	Task<IEnumerable<Book>> GetMostDownloadedBooksAsync();
 
-	Task<int> AddBook(AddOrEditBook book);
+	Task<Book> AddBook(AddOrEditBook book);
 
 	Task<string> UploadBookImage(BookImageUpload bookImageUpload);
 

@@ -1,6 +1,7 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Books;
+using Lemoncode.LibraryExample.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,26 @@ public class BooksController : ControllerBase
 	public BooksController(IBookService bookService)
 	{
 		_bookService = bookService;
+	}
+
+	[HttpGet("{bookId}/image")]
+	
+	public IActionResult GetBookImage(int bookId)
+	{
+		return _bookService.GetBookImage(bookId);
+	}
+
+	[HttpGet("{bookId}")]
+	public async Task<IActionResult> GetBook([FromRoute] int bookId)
+	{
+		try
+		{
+			return Ok(await _bookService.GetBook(bookId));
+		}
+		catch (EntityNotFoundException)
+		{
+			return NotFound(bookId);
+		}
 	}
 
 	[HttpGet("Novelties")]
@@ -58,7 +79,7 @@ public class BooksController : ControllerBase
 			operationInfo.ValidationResult.AddToModelState(this.ModelState);
 			return this.ValidationProblem();
 		}
-		return Ok(book);
+		return Ok(operationInfo.book);
 	}
 
 }

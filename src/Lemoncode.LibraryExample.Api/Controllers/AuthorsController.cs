@@ -39,7 +39,8 @@ public class AuthorsController : ControllerBase
 				operationInfo.ValidationResult.AddToModelState(this.ModelState);
 				return ValidationProblem();
 			}
-			author.Id = operationInfo.BookId.Value;
+			
+			author.Id = operationInfo.BookId!.Value;
 		return Ok(author);
 		}
 		catch (Exception ex)

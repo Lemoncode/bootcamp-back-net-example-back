@@ -23,7 +23,4 @@ public class AddOrEditBookDto
 
 	public required string ImageAltText { get; set; }
 
-	public required DateTime Created { get; set; }
-
-
 }

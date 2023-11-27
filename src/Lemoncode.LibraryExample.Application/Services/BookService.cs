@@ -9,6 +9,9 @@ using Lemoncode.LibraryExample.Application.Validators.Books;
 using Lemoncode.LibraryExample.Domain.Entities.Books;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+using MimeDetective;
 
 using DomServices = Lemoncode.LibraryExample.Domain.Abstractions.Services;
 
@@ -25,34 +28,34 @@ public class BookService : IBookService
 
 	private readonly IValidator<AddOrEditBookDto> _AddOrEditBookDtoValidator;
 
-	public BookService(DomServices.IBookService bookDomainService, IMapper mapper, IValidator<BookImageUploadDto> bookImageUploadDtoValidator, IValidator<AddOrEditBookDto> addOrEditBookDtoValidator)
+	private readonly ContentInspector _contentInspector;
+
+	public BookService(DomServices.IBookService bookDomainService, IMapper mapper, IValidator<BookImageUploadDto> bookImageUploadDtoValidator, IValidator<AddOrEditBookDto> addOrEditBookDtoValidator, ContentInspector contentInspector)
 	{
 		_bookDomainService = bookDomainService;
 		_mapper = mapper;
 		_bookImageUploadDtoValidator = bookImageUploadDtoValidator;
 		_AddOrEditBookDtoValidator = addOrEditBookDtoValidator;
+		_contentInspector = contentInspector;
 	}
 
-	public async Task<(ValidationResult ValidationResult, int? BookId)> AddBook(AddOrEditBookDto book)
+	public FileStreamResult GetBookImage(int bookId)
 	{
-		ArgumentNullException.ThrowIfNull(book, nameof(book));
+		var imageInfo = _bookDomainService.GetBookImage(bookId);
+		var mimeResult = _contentInspector.Inspect(imageInfo.Stream);
+		var contentType = !mimeResult.Any() ? "application/octet-stream" : mimeResult[0].Definition.File.MimeType;
+		imageInfo.Stream.Seek(0, SeekOrigin.Begin);
+		var result = new FileStreamResult(imageInfo.Stream, contentType)
+		{
+			FileDownloadName = imageInfo.FileName
+		};
 
-		book.Operation = AddOrEditBookDto.OperationType.Add;
-		var validationResult = _AddOrEditBookDtoValidator.Validate(book);
-
-		return (validationResult, validationResult.IsValid ?
-			await _bookDomainService.AddBook(_mapper.Map<AddOrEditBook>(book)) :
-			null);
+		return result;
 	}
 
-	public Task EditBook(int bookId, AddOrEditBookDto book)
+	public async Task<BookDto> GetBook(int bookId)
 	{
-		return _bookDomainService.EditBook(bookId, _mapper.Map<AddOrEditBook>(book));
-	}
-
-	public Task DeleteBook(int bookId)
-	{
-		return _bookDomainService.DeleteBook(bookId);
+		return _mapper.Map<BookDto>(await _bookDomainService.GetBook(bookId));
 	}
 
 	public async Task<IEnumerable<BookDto>> GetMostDownloadedBooksAsync()
@@ -97,6 +100,7 @@ public class BookService : IBookService
 			*/
 			var mStr = new MemoryStream();
 			await bookImageUploadDto.BinaryData.CopyToAsync(mStr);
+			mStr.Seek(0, SeekOrigin.Begin);
 			bookImageUpload.BinaryData = mStr;
 			imageId = await _bookDomainService.UploadBookImage(bookImageUpload);
 		}
@@ -109,4 +113,33 @@ public class BookService : IBookService
 
 		return (validationResult, imageId);
 	}
+
+	public async Task<(ValidationResult ValidationResult, BookDto? book)> AddBook(AddOrEditBookDto book)
+	{
+		ArgumentNullException.ThrowIfNull(book, nameof(book));
+
+		book.Operation = AddOrEditBookDto.OperationType.Add;
+		var validationResult = _AddOrEditBookDtoValidator.Validate(book);
+
+		if (!validationResult.IsValid)
+		{
+			return (validationResult, null);
+		}
+
+		return (
+			validationResult,
+			_mapper.Map<BookDto>(
+				await _bookDomainService.AddBook(_mapper.Map<AddOrEditBook>(book))));
+	}
+
+	public Task EditBook(int bookId, AddOrEditBookDto book)
+	{
+		return _bookDomainService.EditBook(bookId, _mapper.Map<AddOrEditBook>(book));
+	}
+
+	public Task DeleteBook(int bookId)
+	{
+		return _bookDomainService.DeleteBook(bookId);
+	}
+
 }

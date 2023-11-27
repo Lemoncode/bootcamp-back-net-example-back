@@ -16,10 +16,20 @@ public class BookImageRepository : IBookImageRepository
 		_config = config.Value;
 	}
 
+	public (Stream Stream, string FileName) GetBookImage(int bookId)
+	{
+		var files = Directory.GetFiles(_config.ImageStoragePath, $"{bookId}.*", SearchOption.TopDirectoryOnly);
+		if (!files.Any())
+		{
+			throw new FileNotFoundException($"Unable to find the book image for the book with ID {bookId}.");
+		}
+		return (File.OpenRead(files[0]), Path.GetFileName(files[0]));
+	}
+
 	public async Task<string> UploadImageToTempFile(BookImageUpload bookImageUpload)
 	{
 		ArgumentNullException.ThrowIfNull(bookImageUpload, nameof(bookImageUpload));
-		var tempFile = Path.GetTempFileName() + Path.GetExtension(bookImageUpload.FileName);
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(bookImageUpload.FileName));
 		using var fstr = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write);
 		await bookImageUpload.BinaryData.CopyToAsync(fstr);
 		bookImageUpload.BinaryData.Dispose();

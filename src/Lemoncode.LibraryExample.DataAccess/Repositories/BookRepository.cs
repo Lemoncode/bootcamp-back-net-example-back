@@ -31,6 +31,11 @@ public class BookRepository : IBookRepository
 		_mapper = mapper;
 	}
 
+	public async Task<Book> GetBook(int bookId) =>
+		_mapper.Map<Book>(await _context.Books
+			.Include(b => b.Authors)
+			.SingleOrDefaultAsync(b => b.Id == bookId));
+
 	public async Task<IEnumerable<Book>> GetNovelties(int limit) =>
 		await _context.Books
 			.OrderByDescending(b => b.Created)
@@ -79,7 +84,7 @@ public class BookRepository : IBookRepository
 		 * y adjuntarlo a nuestro nuevo libro.
 		 * */
 		var authors = await _context.Authors.Where(a => book.AuthorIds.Contains(a.Id)).ToListAsync();
-		
+
 		if (authors.Count != book.AuthorIds.Length)
 		{
 			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
@@ -103,7 +108,7 @@ public class BookRepository : IBookRepository
 		{
 			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
-		
+
 		existingBook.Authors = authors;
 		existingBook.UpdateDalBook(book);
 		existingBook.Authors = authors;

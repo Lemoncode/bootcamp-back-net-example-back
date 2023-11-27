@@ -7,6 +7,8 @@ namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 public interface IBookRepository
 {
 
+	Task<Book> GetBook(int bookId);
+
 	Task<IEnumerable<Book>> GetNovelties(int limit);
 
 	Task<IEnumerable<Book>> Search(string text);

@@ -17,6 +17,7 @@ using Lemoncode.LibraryExample.Application.Config.Validators;
 using Lemoncode.LibraryExample.Application.Validators.Books;
 using Lemoncode.LibraryExample.FileStorage;
 using Lemoncode.LibraryExample.FileStorage.Config;
+using MimeDetective;
 
 namespace Lemoncode.LibraryExample.Application.Extensions;
 
@@ -36,6 +37,12 @@ public static class ServiceCollectionExtensions
 	public static IServiceCollection AddUtilities(this IServiceCollection serviceCollection)
 	{
 		serviceCollection.AddSingleton<IPaginationHelper, PaginationHelper>();
+		serviceCollection.AddSingleton<ContentInspector>((serviceProvider) =>
+			new ContentInspectorBuilder()
+			{
+				Definitions = MimeDetective.Definitions.Default.All()
+			}.Build()
+		);
 
 		return serviceCollection;
 	}

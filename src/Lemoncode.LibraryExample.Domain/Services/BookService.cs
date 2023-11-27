@@ -31,6 +31,13 @@ public class BookService : IBookService
 		_bookImageRepository = bookImageRepository;
 		_addOrEditBookValidator = addOrEditBookValidator;
 	}
+	public (Stream Stream, string FileName) GetBookImage(int bookId) =>
+		_bookImageRepository.GetBookImage(bookId);
+
+	public async Task<Book> GetBook(int bookId)
+	{
+		return await _bookRepository.GetBook(bookId);
+	}
 
 	public async Task<IEnumerable<Book>> GetMostDownloadedBooksAsync()
 	{
@@ -57,7 +64,7 @@ public class BookService : IBookService
 		return await _bookImageRepository.UploadImageToTempFile(bookImageUpload);
 	}
 
-	public async Task<int> AddBook(AddOrEditBook book)
+	public async Task<Book> AddBook(AddOrEditBook book)
 	{
 		_addOrEditBookValidator.ValidateAndThrow(book);
 		
@@ -71,10 +78,13 @@ public class BookService : IBookService
 			throw new FileNotFoundException("Unable to find the temporary file of the book image. Please retry the image upload and re-sendthe book.");
 		}
 		
+		book.Created = DateTime.UtcNow;
+
 		var identifiableEntity = await _bookRepository.AddBook(book);
 		await _unitOfWork.CommitAsync();
 		_bookImageRepository.AssignImageToBook(identifiableEntity.Id, book.TempImageFileName);
-		return identifiableEntity.Id;
+		var addedBook = await _bookRepository.GetBook(identifiableEntity.Id);
+		return addedBook;
 	}
 
 	public async Task EditBook(int bookId, AddOrEditBook book) 

@@ -10,8 +10,12 @@ namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories
 {
 	public interface IBookImageRepository
 	{
+		(Stream Stream, string FileName)  GetBookImage(int bookId);
+		
 		Task<string> UploadImageToTempFile(BookImageUpload bookImageUpload);
+
 		void AssignImageToBook(int bookId, string tempFile);
+		
 		bool BookImageExists(string tempFileName);
 	}
 }
