@@ -54,7 +54,7 @@ public class BooksController : ControllerBase
 		}
 	}
 
-	[HttpPost("uploadBookImage")]
+	[HttpPost("newImage")]
 	public async Task<IActionResult> UploadBookImage(IFormFile file)
 	{
 		ArgumentNullException.ThrowIfNull(file, nameof(file));
