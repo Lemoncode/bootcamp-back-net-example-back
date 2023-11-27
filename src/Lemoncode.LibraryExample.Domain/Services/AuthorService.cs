@@ -1,4 +1,6 @@
-﻿using Lemoncode.LibraryExample.Crosscutting;
+﻿using FluentValidation;
+
+using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Services;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
@@ -12,10 +14,13 @@ public class AuthorService : IAuthorService
 
 	private readonly IUnitOfWork _unitOfWork;
 
-	public AuthorService(IAuthorRepository authorRepository, IUnitOfWork unitOfWork)
+	private readonly IValidator<Author> _authorValidator;
+	
+	public AuthorService(IAuthorRepository authorRepository, IUnitOfWork unitOfWork, IValidator<Author> authorValidator)
 	{
 		_authorRepository = authorRepository;
 		_unitOfWork = unitOfWork;
+		_authorValidator = authorValidator;
 	}
 
 	public async Task<PaginatedResults<AuthorWithBookCount>> GetAuthors(int pageNumber, int pageSize)
@@ -25,6 +30,8 @@ public class AuthorService : IAuthorService
 
 	public async Task<int> AddAuthor(Author author)
 	{
+		_authorValidator.ValidateAndThrow(author);
+
 		var identifiableObject = await _authorRepository.AddAuthor(author);
 		await _unitOfWork.CommitAsync();
 		return identifiableObject.Id;

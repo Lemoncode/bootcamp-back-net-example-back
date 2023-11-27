@@ -27,7 +27,6 @@ public class BookEntityTypeConfiguration : IEntityTypeConfiguration<Book>
 			.IsRequired(true);
 		builder.Property(p => p.ImageAltText)
 			.HasMaxLength(1000)
-			// is not required just in case the book does not have images. We will handle this in the business logic.
-			.IsRequired(false);
+			.IsRequired(true);
 	}
 }

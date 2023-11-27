@@ -11,7 +11,7 @@ public class Book : IIdentifiable
 
 	public required string Description { get; set; }
 
-	public string? ImageAltText { get; set; }
+	public required string ImageAltText { get; set; }
 
 	public DateTime Created { get; set; }
 

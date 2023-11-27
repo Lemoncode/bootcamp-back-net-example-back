@@ -15,6 +15,8 @@ using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 using Microsoft.Extensions.Configuration;
 using Lemoncode.LibraryExample.Application.Config.Validators;
 using Lemoncode.LibraryExample.Application.Validators.Books;
+using Lemoncode.LibraryExample.FileStorage;
+using Lemoncode.LibraryExample.FileStorage.Config;
 
 namespace Lemoncode.LibraryExample.Application.Extensions;
 
@@ -43,6 +45,7 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 		serviceCollection.AddScoped<IAuthorRepository, AuthorRepository>();
 		serviceCollection.AddScoped<IBookRepository, BookRepository>();
+		serviceCollection.AddScoped<IBookImageRepository, BookImageRepository>();
 
 		return serviceCollection;
 	}
@@ -54,9 +57,10 @@ public static class ServiceCollectionExtensions
 
 		return serviceCollection;
 	}
-	public static IServiceCollection AddValidatorConfigurations(this IServiceCollection serviceCollection, IConfiguration configuration)
+	public static IServiceCollection AddConfigurations(this IServiceCollection serviceCollection, IConfiguration configuration)
 	{
 		serviceCollection.Configure<BookImageUploadDtoValidatorConfig>(configuration.GetSection(BookImageUploadDtoValidatorConfig.ConfigSection));
+		serviceCollection.Configure<BookImageRepositoryConfig>(configuration.GetSection(BookImageRepositoryConfig.ConfigSection));
 		return serviceCollection;
 	}
 

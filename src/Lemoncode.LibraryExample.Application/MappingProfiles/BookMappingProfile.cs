@@ -16,5 +16,6 @@ public class BookMappingProfile : Profile
 		CreateMap<AddOrEditBook, AddOrEditBookDto>().ReverseMap();
 		CreateMap<IFormFile, BookImageUploadDto>()
 			.ForMember(d => d.BinaryData, opt => opt.MapFrom(s =>  s.OpenReadStream()));
+		CreateMap<BookImageUploadDto, BookImageUpload>();
 	}
 }

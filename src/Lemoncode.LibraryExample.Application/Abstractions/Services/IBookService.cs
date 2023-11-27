@@ -7,7 +7,7 @@ namespace Lemoncode.LibraryExample.Application.Abstractions.Services;
 
 public interface IBookService
 {
-	Task<int> AddBook(AddOrEditBookDto book);
+	Task<(ValidationResult ValidationResult, int? BookId)> AddBook(AddOrEditBookDto book);
 	
 	Task EditBook(int bookId, AddOrEditBookDto book);
 
@@ -19,5 +19,5 @@ public interface IBookService
 	
 	Task<IEnumerable<BookDto>> GetTopRatedBooksAsync();
 
-	Task<(ValidationResult ValidationResult, string ImageId)> UploadBookImage(IFormFile file);
+	Task<(ValidationResult ValidationResult, string? ImageId)> UploadBookImage(IFormFile file);
 }

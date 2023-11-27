@@ -1,4 +1,6 @@
-﻿using Lemoncode.LibraryExample.Application.Dtos.Authors;
+﻿using FluentValidation.Results;
+
+using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Lemoncode.LibraryExample.Crosscutting;
 
 namespace Lemoncode.LibraryExample.Application.Abstractions.Services
@@ -7,6 +9,6 @@ namespace Lemoncode.LibraryExample.Application.Abstractions.Services
 	{
 		Task<PaginatedResults<AuthorWithBookCountDto>> GetAuthors(int pageNumber, int pageSize);
 
-		Task<int> AddAuthor(AuthorDto author);
+		Task<(ValidationResult ValidationResult, int? BookId)> AddAuthor(AuthorDto author);
 	}
 }

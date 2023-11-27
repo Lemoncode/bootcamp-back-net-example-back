@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+
+using FluentValidation;
+using FluentValidation.Results;
+
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Lemoncode.LibraryExample.Crosscutting;
@@ -9,13 +13,15 @@ namespace Lemoncode.LibraryExample.Application.Services;
 
 public class AuthorService : IAuthorService
 {
+	private readonly IValidator<AuthorDto> _authorDtoValidator;
 
 	private readonly DomServiceAbstractions.IAuthorService _authorService;
 
 	private readonly IMapper _mapper;
 
-	public AuthorService(DomServiceAbstractions.IAuthorService authorService, IMapper mapper)
+	public AuthorService(IValidator<AuthorDto> authorDtoValidator, DomServiceAbstractions.IAuthorService authorService, IMapper mapper)
 	{
+		_authorDtoValidator = authorDtoValidator;
 		_authorService = authorService;
 		_mapper = mapper;
 	}
@@ -25,8 +31,10 @@ public class AuthorService : IAuthorService
 		return _mapper.Map<PaginatedResults<AuthorWithBookCountDto>>(await _authorService.GetAuthors(pageNumber, pageSize));
 	}
 
-	public async Task<int> AddAuthor(AuthorDto author)
+	public async Task<(ValidationResult ValidationResult, int? BookId)> AddAuthor(AuthorDto author)
 	{
-		return await _authorService.AddAuthor(_mapper.Map<Author>(author));
+		var validationResult = _authorDtoValidator.Validate(author);
+		return (validationResult, validationResult.IsValid ?
+			await _authorService.AddAuthor(_mapper.Map<Author>(author)) : null);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
+using Lemoncode.LibraryExample.Application.Dtos.Books;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,12 +38,27 @@ public class BooksController : ControllerBase
 	{
 		ArgumentNullException.ThrowIfNull(file, nameof(file));
 
-		var imageInfo = await _bookService.UploadBookImage(file);
-		if (!imageInfo.ValidationResult.IsValid)
+		var operationInfo = await _bookService.UploadBookImage(file);
+		if (!operationInfo.ValidationResult.IsValid)
 		{
-			imageInfo.ValidationResult.AddToModelState(this.ModelState);
+			operationInfo.ValidationResult.AddToModelState(this.ModelState);
 			return this.ValidationProblem();
 		}
-		return Ok(new { Id = imageInfo.ImageId });
+		return Ok(new { Id = operationInfo.ImageId });
 	}
+
+	[HttpPost("")]
+	public async Task<IActionResult> AddBook(AddOrEditBookDto book)
+	{
+		ArgumentNullException.ThrowIfNull(book, nameof(book));
+
+		var operationInfo = await _bookService.AddBook(book);
+		if (!operationInfo.ValidationResult.IsValid)
+		{
+			operationInfo.ValidationResult.AddToModelState(this.ModelState);
+			return this.ValidationProblem();
+		}
+		return Ok(book);
+	}
+
 }

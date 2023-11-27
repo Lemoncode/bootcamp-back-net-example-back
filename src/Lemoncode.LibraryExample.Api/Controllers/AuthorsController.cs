@@ -1,4 +1,5 @@
-﻿using Lemoncode.LibraryExample.Application.Abstractions.Services;
+﻿using Lemoncode.LibraryExample.Api.Extensions;
+using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +33,13 @@ public class AuthorsController : ControllerBase
 	{
 		try
 		{
-			var id = await _authorService.AddAuthor(author);
-			author.Id = id;
+			var operationInfo = await _authorService.AddAuthor(author);
+			if (!operationInfo.ValidationResult.IsValid)
+			{
+				operationInfo.ValidationResult.AddToModelState(this.ModelState);
+				return ValidationProblem();
+			}
+			author.Id = operationInfo.BookId.Value;
 		return Ok(author);
 		}
 		catch (Exception ex)

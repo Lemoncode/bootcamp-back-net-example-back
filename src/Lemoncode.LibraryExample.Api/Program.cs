@@ -5,6 +5,7 @@ using Lemoncode.LibraryExample.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using FluentValidation;
+using Lemoncode.LibraryExample.Domain.Entities.Validators.Books;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +18,9 @@ builder.Services.AddMappings()
 	.AddRepositories()
 	.AddDomainServices()
 	.AddAppServices()
-	.AddValidatorConfigurations(builder.Configuration)
+	.AddConfigurations(builder.Configuration)
 	.AddValidatorsFromAssemblyContaining<BookImageUploadDtoValidator>()
+	.AddValidatorsFromAssemblyContaining<AddEditBookValidator>()
 	.AddControllers();
 
 

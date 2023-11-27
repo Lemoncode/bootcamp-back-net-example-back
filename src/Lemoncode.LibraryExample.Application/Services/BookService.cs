@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 
+using FluentValidation;
 using FluentValidation.Results;
 
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Books;
 using Lemoncode.LibraryExample.Application.Validators.Books;
 using Lemoncode.LibraryExample.Domain.Entities.Books;
+
 using Microsoft.AspNetCore.Http;
 
 using DomServices = Lemoncode.LibraryExample.Domain.Abstractions.Services;
@@ -19,18 +21,28 @@ public class BookService : IBookService
 
 	private readonly IMapper _mapper;
 
-	private readonly BookImageUploadDtoValidator _bookImageUploadDtoValidator;
+	private readonly IValidator<BookImageUploadDto> _bookImageUploadDtoValidator;
 
-	public BookService(DomServices.IBookService bookDomainService, IMapper mapper, BookImageUploadDtoValidator bookImageUploadDtoValidator)
+	private readonly IValidator<AddOrEditBookDto> _AddOrEditBookDtoValidator;
+
+	public BookService(DomServices.IBookService bookDomainService, IMapper mapper, IValidator<BookImageUploadDto> bookImageUploadDtoValidator, IValidator<AddOrEditBookDto> addOrEditBookDtoValidator)
 	{
 		_bookDomainService = bookDomainService;
 		_mapper = mapper;
 		_bookImageUploadDtoValidator = bookImageUploadDtoValidator;
+		_AddOrEditBookDtoValidator = addOrEditBookDtoValidator;
 	}
 
-	public Task<int> AddBook(AddOrEditBookDto book)
+	public async Task<(ValidationResult ValidationResult, int? BookId)> AddBook(AddOrEditBookDto book)
 	{
-		return _bookDomainService.AddBook(_mapper.Map<AddOrEditBook>(book));
+		ArgumentNullException.ThrowIfNull(book, nameof(book));
+
+		book.Operation = AddOrEditBookDto.OperationType.Add;
+		var validationResult = _AddOrEditBookDtoValidator.Validate(book);
+
+		return (validationResult, validationResult.IsValid ?
+			await _bookDomainService.AddBook(_mapper.Map<AddOrEditBook>(book)) :
+			null);
 	}
 
 	public Task EditBook(int bookId, AddOrEditBookDto book)
@@ -67,12 +79,34 @@ public class BookService : IBookService
 		return _mapper.Map<IEnumerable<BookDto>>(result);
 	}
 
-	public async Task<(ValidationResult ValidationResult, string ImageId)> UploadBookImage(IFormFile file)
+	public async Task<(ValidationResult ValidationResult, string? ImageId)> UploadBookImage(IFormFile file)
 	{
 		ArgumentNullException.ThrowIfNull(file, nameof(file));
 
 		var bookImageUploadDto = _mapper.Map<BookImageUploadDto>(file);
 		var validationResult = await _bookImageUploadDtoValidator.ValidateAsync(bookImageUploadDto);
-		return (validationResult, "abcd");
+		string? imageId = null;
+
+		if (validationResult.IsValid)
+		{
+			var bookImageUpload = _mapper.Map<BookImageUpload>(bookImageUploadDto);
+			/* Descargamos el fichero que nos viene del IFormFile a un MemoryStream para poder hacer el Dispose de este Stream
+			*de una manera controlada aquí, y tener un objeto de dominio independiente con la copia de ese stream.
+			* Si la imagen fuera muy grande, seguramente tenerla en memoria no sería una buena idea, pero para estas pequeñas imágenes
+			* en las que ya hemos definido un tamaño máximo pequeño, es viable.
+			*/
+			var mStr = new MemoryStream();
+			await bookImageUploadDto.BinaryData.CopyToAsync(mStr);
+			bookImageUpload.BinaryData = mStr;
+			imageId = await _bookDomainService.UploadBookImage(bookImageUpload);
+		}
+
+		/* Desechamos el stream que abrimos al mapear el objeto de IFormFile a BookImageUploadDto.
+		 * En el mapeo de BookImageUploadDto a BookImageUpload (entidad de dominio), hemos copiado ese stream a un MemoryStream, por lo que la referencia
+		  * al stream de descarga del fichero desde el cliente ya se puede cerrar sin problemas.
+		*/
+		bookImageUploadDto.Dispose();
+
+		return (validationResult, imageId);
 	}
 }
