@@ -14,7 +14,6 @@ public class BookMappingProfile : Profile
 	public BookMappingProfile()
 	{
 		CreateMap<Book, BookDto>()
-			.ForMember(d => d.Authors, opt => opt.MapFrom(s => s.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList())) 
 			.ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => $"/api/books/{s.Id}/image"));
 		CreateMap<AddOrEditBook, AddOrEditBookDto>().ReverseMap();
 		CreateMap<IFormFile, BookImageUploadDto>()

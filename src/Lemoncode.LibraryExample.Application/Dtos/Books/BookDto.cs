@@ -1,4 +1,6 @@
-﻿namespace Lemoncode.LibraryExample.Application.Dtos.Books;
+﻿using Lemoncode.LibraryExample.Application.Dtos.Authors;
+
+namespace Lemoncode.LibraryExample.Application.Dtos.Books;
 
 public class BookDto
 {
@@ -14,7 +16,7 @@ public class BookDto
 
 	public DateTime Created { get; set; }
 
-	public required List<string> Authors { get; set; }
+	public required List<AuthorDto> Authors { get; set; }
 
 	public required List<ReviewDto> Reviews { get; set; }
 }
