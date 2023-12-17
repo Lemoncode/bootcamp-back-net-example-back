@@ -16,6 +16,10 @@ namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories
 
 		void AssignImageToBook(int bookId, string tempFile);
 		
-		bool BookImageExists(string tempFileName);
+		bool TempImageExists(string tempFileName);
+
+		bool BookImageExist(int bookId);
+
+		void DeleteImage(int bookId);
 	}
 }

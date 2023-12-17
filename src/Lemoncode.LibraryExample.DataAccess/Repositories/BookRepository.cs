@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 
 using Lemoncode.LibraryExample.DataAccess.Context;
-using Lemoncode.LibraryExample.DataAccess.Extensions.EntityExtensions;
 using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
@@ -95,12 +94,14 @@ public class BookRepository : IBookRepository
 		return dalBook;
 	}
 
-	public async Task EditBook(int bookId, AddOrEditBook book)
+	public async Task EditBook(AddOrEditBook book)
 	{
-		var existingBook = await _context.Books.FindAsync(bookId);
+		var existingBook = await _context.Books.Include(b => b.Authors)
+			.SingleAsync(b => b.Id == book.Id);
+		
 		if (existingBook is null)
 		{
-			throw new EntityNotFoundException($"The book with identifier {bookId} does not exist in the database.");
+			throw new EntityNotFoundException($"The book with identifier {book.Id} does not exist in the database.");
 		}
 
 		var authors = await _context.Authors.Where(a => book.AuthorIds.Contains(a.Id)).ToListAsync();
@@ -109,9 +110,12 @@ public class BookRepository : IBookRepository
 			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
 
-		existingBook.Authors = authors;
-		existingBook.UpdateDalBook(book);
-		existingBook.Authors = authors;
+		_mapper.Map(book, existingBook);
+		existingBook.Authors.Clear();
+		foreach (var author in authors)
+		{
+			existingBook.Authors.Add(author);
+		}
 	}
 
 	public async Task DeleteBook(int bookId)

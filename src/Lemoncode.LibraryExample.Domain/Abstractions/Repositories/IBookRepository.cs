@@ -19,7 +19,7 @@ public interface IBookRepository
 
 	Task<IIdentifiable> AddBook(AddOrEditBook book);
 
-	Task EditBook(int bookId, AddOrEditBook book);
+	Task EditBook(AddOrEditBook book);
 
 	Task DeleteBook(int bookId);
 	Task<bool> BookExists(int bookId);

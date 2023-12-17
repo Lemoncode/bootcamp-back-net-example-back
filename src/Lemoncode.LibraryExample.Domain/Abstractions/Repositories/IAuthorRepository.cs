@@ -15,11 +15,18 @@ public interface IAuthorRepository
 {
 
 	Task<PaginatedResults<AuthorWithBookCount>> GetAuthors(int pageNumber, int pageSize);
+	
+	Task<AuthorWithBookCount> GetAuthor(int authorId);
 
 	Task<Author> GetAuthorById(int authorId);
 
 	Task<bool> AuthorExists(int authorId);
+
 	Task<bool> AuthorsExist(int[] authorIds);
 
 	Task<IIdentifiable> AddAuthor(Author author);
+
+	Task EditAuthor(Author author);
+
+	Task DeleteAuthor(int authorId);
 }

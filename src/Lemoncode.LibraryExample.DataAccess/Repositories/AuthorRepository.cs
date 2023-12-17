@@ -7,6 +7,7 @@ using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
+using Lemoncode.LibraryExample.Domain.Exceptions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +38,11 @@ public class AuthorRepository : IAuthorRepository
 			pageNumber, pageSize);
 	}
 
+	public async Task<AuthorWithBookCount> GetAuthor(int authorId)
+	{
+		return _mapper.Map<AuthorWithBookCount>(await _context.Authors.FindAsync(authorId));
+	}
+
 	public async Task<Author> GetAuthorById(int authorId)
 	{
 		var author = await _context.Authors.FindAsync(authorId);
@@ -60,4 +66,25 @@ public class AuthorRepository : IAuthorRepository
 		return Task.FromResult((IIdentifiable)dalAuthor);
 	}
 
+	public async Task EditAuthor(Author author)
+	{
+		var authorFromDb = await _context.Authors.FindAsync(author.Id);
+		if (authorFromDb is null)
+		{
+			throw new EntityNotFoundException($"The author with ID {author.Id} was not found.");
+		}
+		
+		_mapper.Map(author, authorFromDb);
+	}
+
+	public async Task DeleteAuthor(int authorId)
+	{
+		var authorFromDb = await _context.Authors.FindAsync(authorId);
+		if (authorFromDb is null)
+		{
+			throw new EntityNotFoundException($"The author with ID {authorId} was not found.");
+		}
+		
+		_context.Authors.Remove(authorFromDb);
+	}
 }

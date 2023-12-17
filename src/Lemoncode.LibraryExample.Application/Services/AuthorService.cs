@@ -31,10 +31,31 @@ public class AuthorService : IAuthorService
 		return _mapper.Map<PaginatedResults<AuthorWithBookCountDto>>(await _authorService.GetAuthors(pageNumber, pageSize));
 	}
 
-	public async Task<(ValidationResult ValidationResult, int? BookId)> AddAuthor(AuthorDto author)
+	public async Task<AuthorWithBookCountDto> GetAuthor(int authorId)
+	{
+		return _mapper.Map<AuthorWithBookCountDto>(await _authorService.GetAuthor(authorId));
+	}
+
+	public async Task<(ValidationResult ValidationResult, int? AuthorId)> AddAuthor(AuthorDto author)
 	{
 		var validationResult = _authorDtoValidator.Validate(author);
 		return (validationResult, validationResult.IsValid ?
 			await _authorService.AddAuthor(_mapper.Map<Author>(author)) : null);
+	}
+
+	public async Task<ValidationResult> EditAuthor(AuthorDto author)
+	{
+		var validationResult = _authorDtoValidator.Validate(author);
+		if (validationResult.IsValid)
+		{
+			await _authorService.EditAuthor(_mapper.Map<Author>(author));
+		}
+
+		return validationResult;
+	}
+
+	public Task DeleteAuthor(int authorId)
+	{
+		return _authorService.DeleteAuthor(authorId);
 	}
 }

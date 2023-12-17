@@ -22,7 +22,7 @@ public class BooksController : ControllerBase
 	}
 
 	[HttpGet("{bookId}/image")]
-	
+
 	public IActionResult GetBookImage(int bookId)
 	{
 		return _bookService.GetBookImage(bookId);
@@ -71,15 +71,46 @@ public class BooksController : ControllerBase
 	[HttpPost("")]
 	public async Task<IActionResult> AddBook(AddOrEditBookDto book)
 	{
-		ArgumentNullException.ThrowIfNull(book, nameof(book));
-
 		var operationInfo = await _bookService.AddBook(book);
 		if (!operationInfo.ValidationResult.IsValid)
 		{
 			operationInfo.ValidationResult.AddToModelState(this.ModelState);
 			return this.ValidationProblem();
 		}
-		return Ok(operationInfo.book);
+		return Created($"/api/books/{operationInfo.book?.Id}" ,operationInfo.book);
 	}
 
+	[HttpPut("{bookId}")]
+	public async Task<IActionResult> EditBook([FromRoute]int bookId, AddOrEditBookDto book)
+	{
+		book.Id = bookId;
+		try
+		{
+			var validationResult = await _bookService.EditBook(book);
+			if (!validationResult.IsValid)
+			{
+				validationResult.AddToModelState(this.ModelState);
+				return this.ValidationProblem();
+			}
+			return Ok(book);
+		}
+		catch (EntityNotFoundException)
+		{
+			return NotFound(bookId);
+		}
+	}
+
+	[HttpDelete("{bookId}")]
+	public async Task<IActionResult> DeleteBook([FromRoute]int bookId)
+	{
+		try
+		{
+			await _bookService.DeleteBook(bookId);
+			return NoContent();
+		}
+		catch (EntityNotFoundException)
+		{
+			return NotFound(bookId);
+		}
+	}
 }

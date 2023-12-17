@@ -13,6 +13,8 @@ public class AddOrEditBookDto
 	[JsonIgnore]
 	public OperationType Operation { get; set; }
 
+	public int Id { get; set; }
+
 	public required string Title { get; set; }
 
 	public required int[] AuthorIds { get; set; }

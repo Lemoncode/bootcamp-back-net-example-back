@@ -36,7 +36,7 @@ public class BookImageRepository : IBookImageRepository
 		return Path.GetFileName(tempFile);
 	}
 
-	public bool BookImageExists(string tempFileName)
+	public bool TempImageExists(string tempFileName)
 	{
 		return File.Exists(Path.Combine(Path.GetTempPath(), tempFileName));
 	}
@@ -55,4 +55,20 @@ public class BookImageRepository : IBookImageRepository
 		File.Copy(tempFilePath, Path.Combine(_config.ImageStoragePath, bookId.ToString() + Path.GetExtension(tempFile)));
 	}
 
+	public bool BookImageExist(int bookId)
+	{
+		var files = Directory.GetFiles(_config.ImageStoragePath, $"{bookId}.*", SearchOption.TopDirectoryOnly);
+		return files.Any();
+	}
+
+	public void DeleteImage(int bookId)
+	{
+		var files = Directory.GetFiles(_config.ImageStoragePath, $"{bookId}.*", SearchOption.TopDirectoryOnly);
+		if (!files.Any())
+		{
+			throw new FileNotFoundException($"Unable to find the image for the book with iID {bookId}.");
+		}
+
+		File.Delete(files.First());
+	}
 }

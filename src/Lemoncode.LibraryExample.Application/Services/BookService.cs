@@ -132,14 +132,23 @@ public class BookService : IBookService
 				await _bookDomainService.AddBook(_mapper.Map<AddOrEditBook>(book))));
 	}
 
-	public Task EditBook(int bookId, AddOrEditBookDto book)
+	public async Task<ValidationResult> EditBook(AddOrEditBookDto book)
 	{
-		return _bookDomainService.EditBook(bookId, _mapper.Map<AddOrEditBook>(book));
+		ArgumentNullException.ThrowIfNull(book, nameof(book));
+
+		book.Operation = AddOrEditBookDto.OperationType.Edit;
+
+		var validationResult = await _AddOrEditBookDtoValidator.ValidateAsync(book);
+		if (validationResult.IsValid)
+		{
+			await _bookDomainService.EditBook(_mapper.Map<AddOrEditBook>(book));
+		}
+
+		return validationResult;
 	}
 
 	public Task DeleteBook(int bookId)
 	{
 		return _bookDomainService.DeleteBook(bookId);
 	}
-
 }

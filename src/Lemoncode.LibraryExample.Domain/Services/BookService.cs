@@ -73,7 +73,7 @@ public class BookService : IBookService
 			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
 		
-		if (!_bookImageRepository.BookImageExists(book.TempImageFileName))
+		if (!_bookImageRepository.TempImageExists(book.TempImageFileName))
 		{
 			throw new FileNotFoundException("Unable to find the temporary file of the book image. Please retry the image upload and re-sendthe book.");
 		}
@@ -87,11 +87,11 @@ public class BookService : IBookService
 		return addedBook;
 	}
 
-	public async Task EditBook(int bookId, AddOrEditBook book) 
+	public async Task EditBook(AddOrEditBook book) 
 	{
-		if (!await _bookRepository.BookExists(bookId))
+		if (!await _bookRepository.BookExists(book.Id))
 		{
-			throw new EntityNotFoundException($"The book with ID {bookId} does not exist in the database.");
+			throw new EntityNotFoundException($"The book with ID {book.Id} does not exist in the database.");
 		}
 
 		if (!await _authorRepository.AuthorsExist(book.AuthorIds))
@@ -99,7 +99,20 @@ public class BookService : IBookService
 			throw new EntityNotFoundException($"One or more authors don't exist in the database.");
 		}
 
-		await _bookRepository.EditBook(bookId, book);
+		if (!string.IsNullOrWhiteSpace(book.TempImageFileName))
+		{
+			if (!_bookImageRepository.TempImageExists(book.TempImageFileName))
+			{
+				throw new FileNotFoundException("Unable to find the temporary file of the book image. Please retry the image upload and re-sendthe book.");
+			}
+		}
+
+		await _bookRepository.EditBook(book);
+		if (!string.IsNullOrWhiteSpace(book.TempImageFileName))
+		{
+			_bookImageRepository.AssignImageToBook(book.Id, book.TempImageFileName);
+		}
+
 		await _unitOfWork.CommitAsync();
 	}
 
@@ -111,7 +124,7 @@ public class BookService : IBookService
 		}
 
 		await _bookRepository.DeleteBook(bookId);
+		_bookImageRepository.DeleteImage(bookId);
 		await _unitOfWork.CommitAsync();
 	}
-
 }

@@ -23,7 +23,7 @@ public interface IBookService
 
 	Task<(ValidationResult ValidationResult, BookDto? book)> AddBook(AddOrEditBookDto book);
 
-	Task EditBook(int bookId, AddOrEditBookDto book);
+	Task<ValidationResult>  EditBook(AddOrEditBookDto book);
 
 	Task DeleteBook(int bookId);
 }

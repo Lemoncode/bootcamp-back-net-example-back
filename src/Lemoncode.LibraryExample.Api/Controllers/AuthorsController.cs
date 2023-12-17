@@ -1,6 +1,8 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Authors;
+using Lemoncode.LibraryExample.Domain.Exceptions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,24 +30,67 @@ public class AuthorsController : ControllerBase
 		return Ok(await _authorService.GetAuthors(page, pageSize));
 	}
 
-	[HttpPost]
-	public async Task<IActionResult> AddAuthor(AuthorDto author)
+
+	[HttpGet("{authorId}")]
+	public async Task<IActionResult> GetAuthor(int authorId)
 	{
 		try
 		{
-			var operationInfo = await _authorService.AddAuthor(author);
-			if (!operationInfo.ValidationResult.IsValid)
+			return Ok(await _authorService.GetAuthor(authorId));
+		}
+		catch (EntityNotFoundException)
+		{
+			return NotFound();
+		}
+	}
+
+
+	[HttpPost]
+	public async Task<IActionResult> AddAuthor(AuthorDto author)
+	{
+		var operationInfo = await _authorService.AddAuthor(author);
+		if (!operationInfo.ValidationResult.IsValid)
+		{
+			operationInfo.ValidationResult.AddToModelState(this.ModelState);
+			return ValidationProblem();
+		}
+
+		author.Id = operationInfo.AuthorId!.Value;
+		return Created($"/api/books/{author.Id}", author);
+	}
+
+	[HttpPut]
+	public async Task<IActionResult> EditAuthor(AuthorDto author)
+	{
+		try
+		{
+			var validationResult = await _authorService.EditAuthor(author);
+			if (!validationResult.IsValid)
 			{
-				operationInfo.ValidationResult.AddToModelState(this.ModelState);
+				validationResult.AddToModelState(this.ModelState);
 				return ValidationProblem();
 			}
-			
-			author.Id = operationInfo.BookId!.Value;
-		return Ok(author);
+
+			return Ok(author);
 		}
-		catch (Exception ex)
+		catch (EntityNotFoundException)
 		{
-			return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+			return NotFound();
 		}
+	}
+
+	[HttpDelete("{authorId}")]
+	public async Task<IActionResult> Delete(int authorId)
+	{
+		try
+		{
+			await _authorService.DeleteAuthor(authorId);
+		}
+		catch (EntityNotFoundException)
+		{
+			return NotFound();
+		}
+		
+		return NoContent();
 	}
 }

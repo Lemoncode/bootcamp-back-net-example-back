@@ -21,7 +21,7 @@ public interface IBookService
 
 	Task<string> UploadBookImage(BookImageUpload bookImageUpload);
 
-	Task EditBook(int bookId, AddOrEditBook book);
+	Task EditBook(AddOrEditBook book);
 
 	Task DeleteBook(int bookId);
 }

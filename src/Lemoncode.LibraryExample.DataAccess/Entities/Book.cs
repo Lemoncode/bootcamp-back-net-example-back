@@ -15,6 +15,8 @@ public class Book : IIdentifiable
 
 	public DateTime Created { get; set; }
 
+	public double AVerage { get; set; }
+
 	public required ICollection<Author> Authors { get; set; }
 
 	public required ICollection<Review> Reviews { get; set; }
