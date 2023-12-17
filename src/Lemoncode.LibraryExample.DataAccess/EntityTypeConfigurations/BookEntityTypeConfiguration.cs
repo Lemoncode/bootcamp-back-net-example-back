@@ -19,12 +19,7 @@ public class BookEntityTypeConfiguration : IEntityTypeConfiguration<Book>
 		builder.HasMany(p => p.Reviews)
 			.WithOne(p => p.Book);
 		builder.HasMany(p => p.Authors)
-			.WithMany(p => p.Books)
-			.UsingEntity(j =>
-			{
-				j.HasOne(typeof(Author)).WithMany().HasForeignKey("AuthorsId").OnDelete(DeleteBehavior.Restrict);
-				j.HasOne(typeof(Book)).WithMany().HasForeignKey("BooksId").OnDelete(DeleteBehavior.Restrict);
-			});
+			.WithMany(p => p.Books);
 		builder.Property(p => p.Title)
 			.HasMaxLength(500)
 			.IsRequired(true);
