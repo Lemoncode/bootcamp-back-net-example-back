@@ -1,4 +1,5 @@
 ﻿using Lemoncode.LibraryExample.Domain.Entities.Authors;
+using Lemoncode.LibraryExample.Domain.Entities.Reviews;
 
 namespace Lemoncode.LibraryExample.Domain.Entities;
 

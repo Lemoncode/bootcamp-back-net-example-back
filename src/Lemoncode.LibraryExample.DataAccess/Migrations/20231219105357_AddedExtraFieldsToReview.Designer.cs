@@ -4,6 +4,7 @@ using Lemoncode.LibraryExample.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lemoncode.LibraryExample.DataAccess.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231219105357_AddedExtraFieldsToReview")]
+    partial class AddedExtraFieldsToReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasIndex("BooksId");
 
-                    b.ToTable("AuthorBook", (string)null);
+                    b.ToTable("AuthorBook");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Author", b =>
@@ -57,7 +60,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Book", b =>
@@ -92,7 +95,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.BookDownload", b =>
@@ -123,7 +126,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BookDownloads", (string)null);
+                    b.ToTable("BookDownloads");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Review", b =>
@@ -157,7 +160,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.User", b =>
@@ -185,7 +188,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AuthorBook", b =>

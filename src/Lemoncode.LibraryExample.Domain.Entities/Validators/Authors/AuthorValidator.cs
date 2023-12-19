@@ -18,6 +18,6 @@ public class AuthorValidator : AbstractValidator<Author>
 			.NotNull()
 			.NotEmpty()
 			.Length(1, 100)
-			.WithMessage("The author first name should contains between 1 and 100 characters.");
+			.WithMessage("The author last name should contains between 1 and 100 characters.");
 	}
 }

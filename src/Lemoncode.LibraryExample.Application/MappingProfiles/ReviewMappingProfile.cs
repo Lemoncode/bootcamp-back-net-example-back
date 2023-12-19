@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-
-using Lemoncode.LibraryExample.Application.Dtos;
-using Lemoncode.LibraryExample.Domain.Entities;
-
+using Lemoncode.LibraryExample.Application.Dtos.Reviews;
+using Lemoncode.LibraryExample.Domain.Entities.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +14,7 @@ public class ReviewMappingProfile : Profile
 
 	public ReviewMappingProfile()
 	{
-		CreateMap<Review, ReviewDto>();
-		CreateMap<ReviewDto, Review>();
+		CreateMap<Review, ReviewDto>().ReverseMap();
+		CreateMap<AddOrEditReviewDto, AddOrEditReview>();
 	}
 }

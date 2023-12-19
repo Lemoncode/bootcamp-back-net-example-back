@@ -1,15 +1,17 @@
-﻿using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.DataAccess.Entities;
+namespace Lemoncode.LibraryExample.Application.Dtos.Reviews;
 
-public class Review : IIdentifiable
+public class ReviewDto
 {
 
 	public int Id { get; set; }
 
 	public int BookId { get; set; }
-
-	public required Book Book { get; set; }
 
 	public required string Reviewer { get; set; }
 
@@ -18,5 +20,4 @@ public class Review : IIdentifiable
 	public DateTime CreationDate { get; set; }
 
 	public ushort Stars { get; set; }
-
 }

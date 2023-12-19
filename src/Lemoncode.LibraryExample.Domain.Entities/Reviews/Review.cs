@@ -1,15 +1,11 @@
-﻿using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
+﻿namespace Lemoncode.LibraryExample.Domain.Entities.Reviews;
 
-namespace Lemoncode.LibraryExample.DataAccess.Entities;
-
-public class Review : IIdentifiable
+public class Review
 {
 
 	public int Id { get; set; }
 
 	public int BookId { get; set; }
-
-	public required Book Book { get; set; }
 
 	public required string Reviewer { get; set; }
 

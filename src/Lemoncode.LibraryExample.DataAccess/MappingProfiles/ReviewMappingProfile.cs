@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-
+using Lemoncode.LibraryExample.Domain.Entities.Reviews;
 using DalEntities = Lemoncode.LibraryExample.DataAccess.Entities;
 using DomEntities = Lemoncode.LibraryExample.Domain.Entities;
 
@@ -10,6 +10,8 @@ public class ReviewMappingProfile : Profile
 
 	public ReviewMappingProfile()
 	{
-		CreateMap<DalEntities.Review, DomEntities.Review>();
+		CreateMap<AddOrEditReview, DalEntities.Review>()
+			.ForMember(m => m.CreationDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+		CreateMap<DalEntities.Review, DomEntities.Reviews.Review>();
 	}
 }

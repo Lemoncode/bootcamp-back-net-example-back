@@ -1,6 +1,6 @@
-﻿namespace Lemoncode.LibraryExample.Domain.Entities;
+﻿namespace Lemoncode.LibraryExample.Domain.Entities.Reviews;
 
-public class Review
+public class AddOrEditReview
 {
 
 	public int Id { get; set; }

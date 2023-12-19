@@ -53,6 +53,7 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<IAuthorRepository, AuthorRepository>();
 		serviceCollection.AddScoped<IBookRepository, BookRepository>();
 		serviceCollection.AddScoped<IBookImageRepository, BookImageRepository>();
+		serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
 
 		return serviceCollection;
 	}
@@ -61,9 +62,11 @@ public static class ServiceCollectionExtensions
 	{
 		serviceCollection.AddScoped<DomServiceAbstractions.IAuthorService, DomServices.AuthorService>();
 		serviceCollection.AddScoped<DomServiceAbstractions.IBookService, DomServices.BookService>();
+		serviceCollection.AddScoped<DomServiceAbstractions.IReviewService, DomServices.ReviewService>();
 
 		return serviceCollection;
 	}
+
 	public static IServiceCollection AddConfigurations(this IServiceCollection serviceCollection, IConfiguration configuration)
 	{
 		serviceCollection.Configure<BookImageUploadDtoValidatorConfig>(configuration.GetSection(BookImageUploadDtoValidatorConfig.ConfigSection));
@@ -75,6 +78,7 @@ public static class ServiceCollectionExtensions
 	{
 		serviceCollection.AddScoped<appServiceAbstractions.IAuthorService, AppServices.AuthorService>();
 		serviceCollection.AddScoped<appServiceAbstractions.IBookService, AppServices.BookService>();
+		serviceCollection.AddScoped<appServiceAbstractions.IReviewService, AppServices.ReviewService>();
 
 		return serviceCollection;
 	}

@@ -1,4 +1,5 @@
 ﻿using Lemoncode.LibraryExample.Application.Dtos.Authors;
+using Lemoncode.LibraryExample.Application.Dtos.Reviews;
 
 namespace Lemoncode.LibraryExample.Application.Dtos.Books;
 
