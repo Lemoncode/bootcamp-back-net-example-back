@@ -3,6 +3,7 @@ using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Books;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -54,6 +55,7 @@ public class BooksController : ControllerBase
 		}
 	}
 
+	[Authorize]
 	[HttpPost("newImage")]
 	public async Task<IActionResult> UploadBookImage(IFormFile file)
 	{
@@ -68,6 +70,7 @@ public class BooksController : ControllerBase
 		return Ok(new { Id = operationInfo.ImageId });
 	}
 
+	[Authorize]
 	[HttpPost("")]
 	public async Task<IActionResult> AddBook(AddOrEditBookDto book)
 	{
@@ -80,6 +83,7 @@ public class BooksController : ControllerBase
 		return Created($"/api/books/{operationInfo.book?.Id}" ,operationInfo.book);
 	}
 
+	[Authorize]
 	[HttpPut("{bookId}")]
 	public async Task<IActionResult> EditBook([FromRoute]int bookId, AddOrEditBookDto book)
 	{
@@ -100,6 +104,7 @@ public class BooksController : ControllerBase
 		}
 	}
 
+	[Authorize]
 	[HttpDelete("{bookId}")]
 	public async Task<IActionResult> DeleteBook([FromRoute]int bookId)
 	{

@@ -1,14 +1,27 @@
 ﻿using Lemoncode.LibraryExample.Application.Exceptions;
-using Lemoncode.LibraryExample.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Mvc;
+
+using System.Net;
 
 namespace Lemoncode.LibraryExample.Api.Extensions;
 
 public static class ControllerExtensions
 {
-	public static ObjectResult Problem(this ControllerBase controller, HttpExceptionBase exception)
+	private static readonly Dictionary<Type, HttpStatusCode> ExceptionToHttpCodeMap = new()
 	{
-		return controller.Problem(title: "Entity not found.", detail: exception.Message, statusCode: (int)exception.HttpStatusCode);
+		[typeof(EntityNotFoundException)] = HttpStatusCode.NotFound	
+	};
+	
+	public static ObjectResult Problem(this ControllerBase controller, Exception exception)
+	{
+		HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
+		var exceptionType = typeof(Exception);
+		if (ExceptionToHttpCodeMap.ContainsKey(exceptionType))
+		{
+			statusCode = ExceptionToHttpCodeMap[exceptionType];
+		}
+
+		return controller.Problem(title: statusCode.ToString(), detail: exception.Message, statusCode: (int)statusCode);
 	}
 }

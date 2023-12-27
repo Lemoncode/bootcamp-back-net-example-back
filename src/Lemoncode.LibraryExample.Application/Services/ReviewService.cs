@@ -37,7 +37,7 @@ public class ReviewService : IReviewService
 		}
 		catch (DomExceptions.EntityNotFoundException ex)
 		{
-			throw new AppExceptions.EntityNotFoundException(ex.Message, HttpStatusCode.NotFound, ex);
+			throw new AppExceptions.EntityNotFoundException(ex.Message, ex);
 		}
 	}
 
@@ -49,7 +49,7 @@ public class ReviewService : IReviewService
 		}
 		catch (DomExceptions.EntityNotFoundException ex)
 		{
-			throw new AppExceptions.EntityNotFoundException(ex.Message, HttpStatusCode.NotFound, ex);
+			throw new AppExceptions.EntityNotFoundException(ex.Message, ex);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class ReviewService : IReviewService
 		}
 		catch (DomExceptions.EntityNotFoundException ex)
 		{
-			throw new AppExceptions.EntityNotFoundException(ex.Message, HttpStatusCode.NotFound);
+			throw new AppExceptions.EntityNotFoundException(ex.Message, ex);
 		}
 	}
 }

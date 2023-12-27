@@ -3,6 +3,7 @@ using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Reviews;
 using Lemoncode.LibraryExample.Application.Exceptions;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ public class ReviewsController : ControllerBase
 		{
 			return Ok(await _reviewService.GetReviews(bookId, page, pageSize));
 		}
-		catch (HttpExceptionBase ex)
+		catch (Exception ex)
 		{
 			return this.Problem(ex);
 		}
@@ -46,13 +47,14 @@ public class ReviewsController : ControllerBase
 		{
 			return Ok(await _reviewService.GetReview(reviewId));
 		}
-		catch (HttpExceptionBase ex)
+		catch (Exception ex)
 		{
 			return this.Problem(ex);
 		}
 	}
 
 
+	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> AddReview(AddOrEditReviewDto review)
 	{
@@ -67,6 +69,7 @@ public class ReviewsController : ControllerBase
 		return Created($"/api/books/{review.Id}", review);
 	}
 
+	[Authorize]
 	[HttpPut]
 	public async Task<IActionResult> EditReview(AddOrEditReviewDto review)
 	{
@@ -81,12 +84,13 @@ public class ReviewsController : ControllerBase
 
 			return Ok(review);
 		}
-		catch (HttpExceptionBase ex)
+		catch (Exception ex)
 		{
 			return this.Problem(ex);
 		}
 	}
 
+	[Authorize]
 	[HttpDelete("{reviewId}")]
 	public async Task<IActionResult> Delete(int reviewId)
 	{
@@ -94,7 +98,7 @@ public class ReviewsController : ControllerBase
 		{
 			await _reviewService.DeleteReview(reviewId);
 		}
-		catch (HttpExceptionBase ex)
+		catch (Exception ex)
 		{
 			return this.Problem(ex);
 		}

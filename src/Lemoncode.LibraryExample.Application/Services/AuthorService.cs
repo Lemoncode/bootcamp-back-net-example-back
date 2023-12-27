@@ -8,8 +8,8 @@ using Lemoncode.LibraryExample.Application.Dtos.Authors;
 using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
 using DomServiceAbstractions = Lemoncode.LibraryExample.Domain.Abstractions.Services;
-using DomExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
 using AppExceptions = Lemoncode.LibraryExample.Application.Exceptions;
+using DomExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
 using System.Net;
 
 namespace Lemoncode.LibraryExample.Application.Services;
@@ -42,7 +42,7 @@ public class AuthorService : IAuthorService
 		}
 		catch(DomExceptions.EntityNotFoundException ex)
 		{
-			throw new AppExceptions.EntityNotFoundException(ex.Message, HttpStatusCode.NotFound, ex);
+			throw new AppExceptions.EntityNotFoundException(ex.Message, ex);
 		}
 	}
 

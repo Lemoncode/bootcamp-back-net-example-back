@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lemoncode.LibraryExample.Application.Exceptions;
 
-public class EntityNotFoundException : HttpExceptionBase
+public class EntityNotFoundException : Exception
 {
 	public EntityNotFoundException()
 	{
@@ -17,15 +17,8 @@ public class EntityNotFoundException : HttpExceptionBase
 	{
 	}
 
-	public EntityNotFoundException(string message, HttpStatusCode statusCode) : base(message, statusCode)
-	{
-	}
 
 	public EntityNotFoundException(string message, Exception inner) : base(message, inner)
-	{
-	}
-
-	public EntityNotFoundException(string message, HttpStatusCode statusCode, Exception inner) : base(message, statusCode, inner)
 	{
 	}
 }

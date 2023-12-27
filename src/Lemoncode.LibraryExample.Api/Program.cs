@@ -1,4 +1,4 @@
-using Lemoncode.LibraryExample.Application.Extensions;
+using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Application.Validators.Books;
 using Lemoncode.LibraryExample.DataAccess.Context;
 
@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using FluentValidation;
 using Lemoncode.LibraryExample.Domain.Entities.Validators.Books;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Lemoncode.LibraryExample.Api.Config;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,19 +18,21 @@ builder.Services.AddDbContextFactory<LibraryDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 builder.Services.AddMappings()
+	.AddConfigurations(builder.Configuration)
 	.AddUtilities()
-	.AddRepositories()
+	.AddInfraServices()
 	.AddDomainServices()
 	.AddAppServices()
-	.AddConfigurations(builder.Configuration)
+	.AddApiServices()
+	.AddJwtAuthentication(builder.Configuration)
 	.AddValidatorsFromAssemblyContaining<BookImageUploadDtoValidator>()
 	.AddValidatorsFromAssemblyContaining<AddEditBookValidator>()
 	.AddControllers();
 
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer()
+	.AddSwaggerGen();
+builder.Services.AddHttpClient();
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
@@ -43,9 +49,9 @@ else
 	app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app.UseHttpsRedirection()
+	.UseAuthentication()
+	.UseAuthorization();
 
 app.MapControllers();
 
