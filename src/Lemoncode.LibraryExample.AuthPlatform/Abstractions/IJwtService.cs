@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Api.Abstractions
+﻿namespace Lemoncode.LibraryExample.AuthPlatform.Abstractions
 {
 	public interface IJWTService
 	{

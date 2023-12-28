@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.SsoServices.Config;
+namespace Lemoncode.LibraryExample.Api.Config;
 
 public record class FrontendConfig
 {
 	public static readonly string ConfigSection = "Frontend";
 
-	public required string FrontendSigninUrl { get; set; }
+	public required string FrontendCompleteSigninUrl { get; set; }
 }

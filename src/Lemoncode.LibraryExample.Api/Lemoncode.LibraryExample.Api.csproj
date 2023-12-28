@@ -24,7 +24,11 @@
     <ProjectReference Include="..\Lemoncode.LibraryExample.DataAccess\Lemoncode.LibraryExample.DataAccess.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain.Entities\Lemoncode.LibraryExample.Domain.Entities.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain\Lemoncode.LibraryExample.Domain.csproj" />
-    <ProjectReference Include="..\Lemoncode.LibraryExample.Infrastructure.SSOServices\Lemoncode.LibraryExample.SsoServices.csproj" />
+    <ProjectReference Include="..\Lemoncode.LibraryExample.AuthPlatform\Lemoncode.LibraryExample.AuthPlatform.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

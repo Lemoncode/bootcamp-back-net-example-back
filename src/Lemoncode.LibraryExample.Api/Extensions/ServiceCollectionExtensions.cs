@@ -1,16 +1,15 @@
-﻿using Lemoncode.LibraryExample.Api.Abstractions;
-using Lemoncode.LibraryExample.Api.Config;
+﻿using Lemoncode.LibraryExample.Api.Config;
 using Lemoncode.LibraryExample.Api.Services;
 using Lemoncode.LibraryExample.Application.Config.Validators;
+using Lemoncode.LibraryExample.AuthPlatform.Abstractions;
+using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
+using Lemoncode.LibraryExample.AuthPlatform.Config;
+using Lemoncode.LibraryExample.AuthPlatform.IdentityProviders;
 using Lemoncode.LibraryExample.DataAccess.Repositories;
 using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.FileStorage;
 using Lemoncode.LibraryExample.FileStorage.Config;
-using Lemoncode.LibraryExample.SsoServices;
-using Lemoncode.LibraryExample.SsoServices.Abstractions;
-using Lemoncode.LibraryExample.SsoServices.Config;
-using Lemoncode.LibraryExample.SsoServices.IdentityProviders;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -60,7 +59,6 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<IBookImageRepository, BookImageRepository>();
 		serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
 		serviceCollection.AddScoped<IGoogleOauthService, GoogleOauthService>();
-		serviceCollection.AddScoped<IFrontendService, FrontendService>();
 
 		return serviceCollection;
 	}

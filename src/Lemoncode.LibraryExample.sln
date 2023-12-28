@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.FileStorage", "Lemoncode.LibraryExample.FileStorage\Lemoncode.LibraryExample.FileStorage.csproj", "{D501AC8C-AF5B-49C6-93C4-27BBE47EB607}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.SsoServices", "Lemoncode.LibraryExample.Infrastructure.SSOServices\Lemoncode.LibraryExample.SsoServices.csproj", "{1A14613D-BF5A-49B5-9955-D41048974FB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.AuthPlatform", "Lemoncode.LibraryExample.AuthPlatform\Lemoncode.LibraryExample.AuthPlatform.csproj", "{1A14613D-BF5A-49B5-9955-D41048974FB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

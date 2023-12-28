@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.SsoServices.Exceptions;
+﻿namespace Lemoncode.LibraryExample.AuthPlatform.Exceptions;
 
 
 [Serializable]

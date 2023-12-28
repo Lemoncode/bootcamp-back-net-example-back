@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.SsoServices.Entities
+namespace Lemoncode.LibraryExample.AuthPlatform.Entities
 {
 	public record class GoogleCodeExchangeResponse
 	{

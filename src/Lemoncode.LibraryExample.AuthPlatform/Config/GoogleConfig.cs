@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.SsoServices.Config;
+﻿namespace Lemoncode.LibraryExample.AuthPlatform.Config;
 
 public record class GoogleConfig
 {

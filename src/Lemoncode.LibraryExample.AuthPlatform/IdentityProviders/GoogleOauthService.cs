@@ -1,16 +1,15 @@
 ﻿using Google.Apis.Auth;
-
-using Lemoncode.LibraryExample.SsoServices.Abstractions;
-using Lemoncode.LibraryExample.SsoServices.Config;
-using Lemoncode.LibraryExample.SsoServices.Entities;
-using Lemoncode.LibraryExample.SsoServices.Exceptions;
+using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
+using Lemoncode.LibraryExample.AuthPlatform.Config;
+using Lemoncode.LibraryExample.AuthPlatform.Entities;
+using Lemoncode.LibraryExample.AuthPlatform.Exceptions;
 
 using Microsoft.Extensions.Options;
 
 using System.Net;
 using System.Text.Json;
 
-namespace Lemoncode.LibraryExample.SsoServices.IdentityProviders;
+namespace Lemoncode.LibraryExample.AuthPlatform.IdentityProviders;
 
 public class GoogleOauthService : IGoogleOauthService
 {

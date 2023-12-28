@@ -1,4 +1,4 @@
-﻿namespace Lemoncode.LibraryExample.Api.Config
+﻿namespace Lemoncode.LibraryExample.AuthPlatform.Config
 {
 	public record class JwtConfig
 	{
