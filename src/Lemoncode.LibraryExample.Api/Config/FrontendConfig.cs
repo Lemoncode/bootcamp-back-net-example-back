@@ -10,5 +10,5 @@ public record class FrontendConfig
 {
 	public static readonly string ConfigSection = "Frontend";
 
-	public required string FrontendCompleteSigninUrl { get; set; }
+	public required string FrontendBaseUrl { get; set; }
 }

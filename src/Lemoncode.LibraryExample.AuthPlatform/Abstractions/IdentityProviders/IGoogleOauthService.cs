@@ -5,7 +5,7 @@ namespace Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
 
 public interface IGoogleOauthService
 {
-	string GetOauthCodeUrl();
+	string GetOauthCodeUrl(string? returnUrl = null);
 
 	public Task<GoogleCodeExchangeResponse> GetToken(string code);
 

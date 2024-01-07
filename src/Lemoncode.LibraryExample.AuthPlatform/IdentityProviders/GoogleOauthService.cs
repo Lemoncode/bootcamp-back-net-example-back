@@ -24,7 +24,7 @@ public class GoogleOauthService : IGoogleOauthService
 		_httpClient = httpClientFactory.CreateClient();
 	}
 
-	public string GetOauthCodeUrl()
+	public string GetOauthCodeUrl(string? returnUrl = null)
 	{
 		var dict = new Dictionary<string, string>
 		{
@@ -34,6 +34,10 @@ public class GoogleOauthService : IGoogleOauthService
 			["scope"] = string.Join(' ', _googleConfig.Value.Scopes),
 			["access_type"] = "online"
 		};
+		if (!string.IsNullOrWhiteSpace(returnUrl))
+		{
+			dict.Add("state", returnUrl);
+		}
 
 		return GetUrlFromDictionary(_googleConfig.Value.OauthCodeUrl, dict);
 	}
