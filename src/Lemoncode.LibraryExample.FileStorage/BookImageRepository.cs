@@ -52,6 +52,11 @@ public class BookImageRepository : IBookImageRepository
 			throw new FileNotFoundException($"Unable to find the temp file {tempFile}.");
 		}
 
+		if (BookImageExist(bookId))
+		{
+			DeleteImage(bookId);
+		}
+		
 		File.Copy(tempFilePath, Path.Combine(_config.ImageStoragePath, bookId.ToString() + Path.GetExtension(tempFile)));
 	}
 
