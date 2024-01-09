@@ -23,33 +23,65 @@ public class Book : Entity
 
 	public ICollection<int> Authors { get; private set; }
 
-	public Book(int id, string title, BookDescription description, BookImage image, DateTime created, DateTime updated, ICollection<int> authors)
+	public void UpdateTitle(string title)
 	{
-		if (string.IsNullOrWhiteSpace(title))
-		{
-			AddValidationError("The title is mandatory.");
-		}
-
-		if (!authors.Any())
-		{
-			AddValidationError("The book should have at least one author.");
-		}
-
-		Validate();		
-
-		this.Id = id;
 		this.Title = title;
-		this.Description = description;
-		this.Image = image;
-		this.Created = created;
-		this.Updated = updated;
+		UpdateUpdatedDate();
+		EnsureStateIsValid();
+	}
+	
+	public void UpdateAuthors(ICollection<int> authors)
+	{
 		this.Authors = authors;
+		UpdateUpdatedDate();
+		EnsureStateIsValid();
 	}
 
 	public void UpdateDescription(string description)
 	{
 		this.Description = new BookDescription(description);
+		UpdateUpdatedDate();
 	}
+
+	public void UpdateImage(string fileName, string altText)
+	{
+		this.Image = new BookImage(fileName, altText);
+		UpdateUpdatedDate();
+		EnsureStateIsValid();
+	}
+
+
+	public Book(int id, string title, BookDescription description, BookImage image, ICollection<int> authors)
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Description = description;
+		this.Image = image;
+		this.Created = DateTime.UtcNow;
+		UpdateUpdatedDate();
+		this.Authors = authors;
+	}
+
+	private void UpdateUpdatedDate()
+	{
+		this.Updated = DateTime.UtcNow;
+	}
+
+	protected override void EnsureStateIsValid()
+	{
+		if (string.IsNullOrWhiteSpace(Title))
+		{
+			AddValidationError("The title is mandatory.");
+		}
+
+		if (!Authors.Any())
+		{
+			AddValidationError("The book should have at least one author.");
+		}
+
+		Validate();
+	}
+
 
 	public void AddReview(int reviewId, string reviewer, ReviewText text, DateTime creationDate, ushort stars)
 	{

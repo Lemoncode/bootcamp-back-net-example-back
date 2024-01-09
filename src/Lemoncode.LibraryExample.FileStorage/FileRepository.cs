@@ -1,7 +1,4 @@
-﻿using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
-using Lemoncode.LibraryExample.Domain.Entities.Books;
-using Lemoncode.LibraryExample.FileStorage.Config;
-using Lemoncode.LibraryExample.FileStorage.FileStorage;
+﻿using Lemoncode.LibraryExample.FileStorage.Config;
 
 using Microsoft.Extensions.Options;
 
@@ -36,7 +33,7 @@ public class FileRepository : IFileRepository
 		return File.OpenRead(filePath);
 	}
 
-	public async Task<Uri> UploadImageToTempFile(Stream stream, string originalFileName)
+	public async Task<Uri> UploadTempFile(Stream stream, string originalFileName)
 	{
 		ArgumentNullException.ThrowIfNull(stream, nameof(stream));
 		ArgumentNullException.ThrowIfNull(originalFileName, nameof(originalFileName));

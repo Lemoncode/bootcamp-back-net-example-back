@@ -1,10 +1,10 @@
-﻿namespace Lemoncode.LibraryExample.FileStorage.FileStorage;
+﻿namespace Lemoncode.LibraryExample.FileStorage;
 
 public interface IFileRepository
 {
 	Stream GetFile(Uri fileUri);
 
-	Task<Uri> UploadImageToTempFile(Stream stream, string originalFileName);
+	Task<Uri> UploadTempFile(Stream stream, string originalFileName);
 
 	bool TempFileExists(Uri tempFileUri);
 

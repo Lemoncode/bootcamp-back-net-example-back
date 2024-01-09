@@ -17,10 +17,19 @@ public interface IBookRepository
 
 	Task<IEnumerable<Book>> GetMostDownloadedBooksAsync();
 
-	Task<IIdentifiable> AddBook(AddOrEditBook book);
+	Task<IIdentifiable> AddBook(Book book);
 
-	Task EditBook(AddOrEditBook book);
+	Task EditBook(Book book);
 
 	Task DeleteBook(int bookId);
+	
 	Task<bool> BookExists(int bookId);
+
+	Task<bool> ReviewExists(int reviewId);
+
+	Task<IIdentifiable> AddReview(Review review);
+
+	Task EditReview(Review review);
+
+	Task DeleteReview(int reviewId);
 }

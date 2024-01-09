@@ -54,33 +54,5 @@ public class ReviewService : IReviewService
 		}
 	}
 
-	public async Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(AddOrEditReviewDto review)
-	{
-		var validationResult = _reviewDtoValidator.Validate(review);
-		return (validationResult, validationResult.IsValid ?
-			await _reviewService.AddReview(_mapper.Map<AddOrEditReview>(review)) : null);
-	}
-
-	public async Task<ValidationResult> EditReview(AddOrEditReviewDto review)
-	{
-		var validationResult = _reviewDtoValidator.Validate(review);
-		if (validationResult.IsValid)
-		{
-			await _reviewService.EditReview(_mapper.Map<AddOrEditReview>(review));
-		}
-
-		return validationResult;
-	}
-
-	public async Task DeleteReview(int reviewId)
-	{
-		try
-		{
-			await _reviewService.DeleteReview(reviewId);
-		}
-		catch (DomExceptions.EntityNotFoundException ex)
-		{
-			throw new AppExceptions.EntityNotFoundException(ex.Message, ex);
-		}
-	}
+	
 }

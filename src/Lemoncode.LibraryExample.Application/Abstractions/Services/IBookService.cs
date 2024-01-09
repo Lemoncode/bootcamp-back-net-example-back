@@ -8,11 +8,17 @@ namespace Lemoncode.LibraryExample.Application.Abstractions.Services;
 
 public interface IBookService
 {
-	Task<(ValidationResult ValidationResult, string? ImageId)> UploadBookImage(IFormFile file);
+	Task<(ValidationResult ValidationResult, Uri? ImageUri)> UploadBookImage(IFormFile file);
 
 	Task<(ValidationResult ValidationResult, BookDto? book)> AddBook(AddOrEditBookDto book);
 
 	Task<ValidationResult>  EditBook(AddOrEditBookDto book);
 
-	Task DeleteBook(int bookId);
+	Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(AddOrEditReviewDto review);
+
+	Task<ValidationResult> EditReview(AddOrEditReviewDto review);
+
+	Task DeleteReview(int reviewId);
+}
+Task DeleteBook(int bookId);
 }

@@ -14,17 +14,14 @@ namespace Lemoncode.LibraryExample.Application.Extensions.Mappers;
 internal static class BookMapperExtensions
 {
 
-	public static Book ConvertToDomainEntity(this AddOrEditBookDto book, string imageFileName, DateTime created, DateTime updated)
+	public static Book ConvertToDomainEntity(this AddOrEditBookDto book, string imageUri, DateTime created, DateTime updated)
 	{
 		return new Book(
 			id: book.Id,
 			title: book.Title,
 			new BookDescription(book.Description),
-			new BookImage(imageFileName, book.ImageAltText),
-			created: created,
-			updated: updated,
+			new BookImage(imageUri, book.ImageAltText),
 			authors: book.AuthorIds
 			);
 	}
-
 }

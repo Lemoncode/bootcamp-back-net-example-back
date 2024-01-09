@@ -13,20 +13,35 @@ public class Author : Entity
 
 	public Author(int id, string firstName, string lastName)
 	{
-		if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 100)
+		this.Id = id;
+		this.FirstName = firstName;
+		this.LastName = lastName;
+	}
+
+	public void UPdateFirstName(string firstName)
+	{
+		this.FirstName = FirstName;
+		EnsureStateIsValid();
+	}
+
+	public void UpdateLastName(string lastName)
+	{
+		this.LastName = lastName;
+		EnsureStateIsValid();
+	}
+
+	protected override void EnsureStateIsValid()
+	{
+		if (string.IsNullOrWhiteSpace(FirstName) || FirstName.Length > 100)
 		{
 			AddValidationError("First name should contains between 1 and 100 characters, and cannot be empty.");
 		}
 
-		if (string.IsNullOrWhiteSpace(lastName) || lastName.Length > 100)
+		if (string.IsNullOrWhiteSpace(LastName) || LastName.Length > 100)
 		{
 			AddValidationError("Last name should contains between 1 and 100 characters, and cannot be empty.");
 		}
 
 		Validate();
-
-		this.Id = id;
-		this.FirstName = firstName;
-		this.LastName = lastName;
 	}
 }

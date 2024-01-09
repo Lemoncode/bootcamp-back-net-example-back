@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Results;
-using Lemoncode.LibraryExample.Application.Dtos.Books;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 using Lemoncode.LibraryExample.Crosscutting;
 

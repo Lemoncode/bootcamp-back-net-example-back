@@ -19,5 +19,7 @@ public abstract class Entity
 		throw ex;
 	}
 
+	protected abstract void EnsureStateIsValid();
+
 	protected void AddValidationError(string errorMessage) => _validationErrors.Add(errorMessage);
 }
