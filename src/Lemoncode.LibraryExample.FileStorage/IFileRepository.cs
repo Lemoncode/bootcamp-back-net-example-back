@@ -4,9 +4,13 @@ public interface IFileRepository
 {
 	Stream GetFile(Uri fileUri);
 
-	void DeleteImage(Uri imageUri);
+	Task<Uri> UploadImageToTempFile(Stream stream, string originalFileName);
 
-	Task<string> UploadImageToTempFile(Stream stream);
+	bool TempFileExists(Uri tempFileUri);
 
-	bool TempImageExists(string tempFileName);
+	Task<Uri> CopyFileToPermanentLocation(Uri tempFileUri, string permanentFileName);
+
+	bool FileExists(Uri fileUri);
+
+	void DeleteFile(Uri fileUri);
 }
