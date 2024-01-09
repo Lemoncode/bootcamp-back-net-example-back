@@ -1,7 +1,7 @@
 ﻿using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
-using Lemoncode.LibraryExample.Domain.Entities.Reviews;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
 using System;
 using System.Collections.Generic;
 using System.Linq;

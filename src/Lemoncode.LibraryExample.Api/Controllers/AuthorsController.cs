@@ -1,6 +1,6 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
-using Lemoncode.LibraryExample.Application.Dtos.Authors;
+using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Authorization;

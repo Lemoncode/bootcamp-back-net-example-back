@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Lemoncode.LibraryExample.FileStorage\Lemoncode.LibraryExample.FileStorage.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\FileStorage\" />
+  </ItemGroup>
+
 </Project>

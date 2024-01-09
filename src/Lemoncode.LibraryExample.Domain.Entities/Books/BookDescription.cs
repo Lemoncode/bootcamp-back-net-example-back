@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lemoncode.LibraryExample.Domain.Entities.Exceptions;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +8,20 @@ using System.Threading.Tasks;
 
 namespace Lemoncode.LibraryExample.Domain.Entities.Books;
 
-public record class BookDescription
+public record class BookDescription : ValueObject
 {
 
 	public string Description { get; private set; }
 
 	public BookDescription(string description)
 	{
-		Description = description ?? throw new ArgumentNullException(nameof(BookDescription));
-	}
+		if (description.Length < 10 || description.Length > 4000)
+		{
+			AddValidationError("The description should contains between 10 and 4000 characters.");
+		}
+		
+		Validate();
 
-	public static BookDescription CreateFromString(string str)
-	{
-		str = "<p>" + str.Replace("\r", "").Replace("\n", "</p><p>") + "</p>";
-		return new BookDescription(str);
+		this.Description = description ?? throw new ArgumentNullException(nameof(BookDescription));
 	}
 }

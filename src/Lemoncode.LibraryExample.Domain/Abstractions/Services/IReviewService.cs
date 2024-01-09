@@ -1,6 +1,6 @@
 ﻿using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
-using Lemoncode.LibraryExample.Domain.Entities.Reviews;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
 
 namespace Lemoncode.LibraryExample.Domain.Abstractions.Services;
 

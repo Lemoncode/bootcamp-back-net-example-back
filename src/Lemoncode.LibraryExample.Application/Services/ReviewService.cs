@@ -10,8 +10,9 @@ using DomServiceAbstractions = Lemoncode.LibraryExample.Domain.Abstractions.Serv
 using DomExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
 using AppExceptions = Lemoncode.LibraryExample.Application.Exceptions;
 using Lemoncode.LibraryExample.Domain.Entities.Reviews;
-using Lemoncode.LibraryExample.Application.Dtos.Reviews;
 using System.Net;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
+using Lemoncode.LibraryExample.Application.Dtos.Queries.Books;
 namespace Lemoncode.LibraryExample.Application.Services;
 
 public class ReviewService : IReviewService

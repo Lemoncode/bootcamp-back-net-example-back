@@ -56,7 +56,7 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 		serviceCollection.AddScoped<IAuthorRepository, AuthorRepository>();
 		serviceCollection.AddScoped<IBookRepository, BookRepository>();
-		serviceCollection.AddScoped<IBookImageRepository, BookImageRepository>();
+		serviceCollection.AddScoped<IFileRepository, FileRepository>();
 		serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
 		serviceCollection.AddScoped<IGoogleOauthService, GoogleOauthService>();
 
@@ -75,7 +75,7 @@ public static class ServiceCollectionExtensions
 	public static IServiceCollection AddConfigurations(this IServiceCollection serviceCollection, IConfiguration configuration)
 	{
 		serviceCollection.Configure<BookImageUploadDtoValidatorConfig>(configuration.GetSection(BookImageUploadDtoValidatorConfig.ConfigSection));
-		serviceCollection.Configure<BookImageRepositoryConfig>(configuration.GetSection(BookImageRepositoryConfig.ConfigSection));
+		serviceCollection.Configure<FileStorageRepositoryConfig>(configuration.GetSection(FileStorageRepositoryConfig.ConfigSection));
 		serviceCollection.Configure<JwtConfig>(configuration.GetSection(JwtConfig.ConfigSection));
 		serviceCollection.Configure<GoogleConfig>(configuration.GetSection(GoogleConfig.ConfigSection));
 		serviceCollection.Configure<FrontendConfig>(configuration.GetSection(FrontendConfig.ConfigSection));

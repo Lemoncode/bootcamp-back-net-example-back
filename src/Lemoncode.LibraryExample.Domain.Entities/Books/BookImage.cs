@@ -1,17 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Lemoncode.LibraryExample.Domain.Entities.Books;
 
-namespace Lemoncode.LibraryExample.Domain.Entities.Books
+public record class BookImage : ValueObject
 {
-	public record class BookImage(string fileName, string altText)
+
+	public string FileName { get; private set; }
+
+	public string AltText { get; private set; }
+
+	public BookImage(string fileName, string altText)
 	{
+		if (string.IsNullOrWhiteSpace(fileName))
+		{
+			AddValidationError("The image file name is mandatory.");
+		}
 
-		public required string FileName { get; set; } = fileName;
+		if (!fileName.Contains("."))
+		{
+			AddValidationError("The image file name should contain an extension.");
+		}
 
-		public required string AltText { get; set; } = altText;
+		if (string.IsNullOrWhiteSpace(altText))
+		{
+			AddValidationError("The image alt text is mandatory. Think in accessibility!");
+		}
 
+		if (altText.Length < 10 || altText.Length > 1000)
+		{
+			AddValidationError("The alt text should contains between 10 and 1000 characters.");
+		}
+
+		Validate();
+
+		this.FileName = fileName;
+		this.AltText = altText;
 	}
 }

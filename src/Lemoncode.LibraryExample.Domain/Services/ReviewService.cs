@@ -3,7 +3,7 @@
 using Lemoncode.LibraryExample.Crosscutting;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Services;
-using Lemoncode.LibraryExample.Domain.Entities.Reviews;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
 namespace Lemoncode.LibraryExample.Domain.Services;

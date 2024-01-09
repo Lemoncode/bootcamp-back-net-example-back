@@ -26,7 +26,7 @@ builder.Services.AddMappings()
 	.AddApiServices()
 	.AddJwtAuthentication(builder.Configuration)
 	.AddValidatorsFromAssemblyContaining<BookImageUploadDtoValidator>()
-	.AddValidatorsFromAssemblyContaining<AddEditBookValidator>()
+	.AddValidatorsFromAssemblyContaining<BookValidator>()
 	.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

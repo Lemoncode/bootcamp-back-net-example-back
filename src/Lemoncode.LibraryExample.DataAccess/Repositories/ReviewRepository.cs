@@ -7,7 +7,7 @@ using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
-using Lemoncode.LibraryExample.Domain.Entities.Reviews;
+using Lemoncode.LibraryExample.Domain.Entities.Books;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Lemoncode.LibraryExample.Application.Dtos.Reviews;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
 
 namespace Lemoncode.LibraryExample.Application.Validators.Reviews;

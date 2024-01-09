@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
-
-using Lemoncode.LibraryExample.Application.Dtos.Authors;
+using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 
 namespace Lemoncode.LibraryExample.Application.Validators.Authors;
 

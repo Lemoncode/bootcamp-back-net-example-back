@@ -17,11 +17,8 @@ public class LibraryDbContext : DbContext
 
 	public DbSet<Review> Reviews { get; set; }
 
-	public DbSet<BookDownload> BookDownloads { get; set; }
-
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(typeof(LibraryDbContext).Assembly);
 	}
-	public DbSet<User> Users { get; set; }
 }
