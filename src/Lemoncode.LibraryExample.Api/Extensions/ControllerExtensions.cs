@@ -16,7 +16,7 @@ public static class ControllerExtensions
 	public static ObjectResult Problem(this ControllerBase controller, Exception exception)
 	{
 		HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
-		var exceptionType = typeof(Exception);
+		var exceptionType = exception.GetType();
 		if (ExceptionToHttpCodeMap.ContainsKey(exceptionType))
 		{
 			statusCode = ExceptionToHttpCodeMap[exceptionType];

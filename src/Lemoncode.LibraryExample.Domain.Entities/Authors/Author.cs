@@ -20,7 +20,7 @@ public class Author : Entity
 
 	public void UPdateFirstName(string firstName)
 	{
-		this.FirstName = FirstName;
+		this.FirstName = firstName;
 		EnsureStateIsValid();
 	}
 

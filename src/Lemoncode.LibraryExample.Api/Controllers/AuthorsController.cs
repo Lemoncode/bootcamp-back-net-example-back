@@ -1,4 +1,5 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
+using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 using Lemoncode.LibraryExample.Domain.Exceptions;
@@ -18,9 +19,12 @@ public class AuthorsController : ControllerBase
 
 	private readonly IAuthorService _authorService;
 
-	public AuthorsController(IAuthorService authorService)
+	private readonly IAuthorQueriesService _authorQueriesService;
+	
+	public AuthorsController(IAuthorService authorService, IAuthorQueriesService authorQueriesService)
 	{
 		_authorService = authorService;
+		_authorQueriesService = authorQueriesService;
 	}
 
 	[HttpGet]
@@ -28,7 +32,7 @@ public class AuthorsController : ControllerBase
 		[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page number must be greater than 1.")] int page = 1,
 		[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page size must be greater than 1.")] int pageSize = 10)
 	{
-		return Ok(await _authorService.GetAuthors(page, pageSize));
+		return Ok(await _authorQueriesService.GetAuthors());
 	}
 
 
@@ -37,16 +41,15 @@ public class AuthorsController : ControllerBase
 	{
 		try
 		{
-			return Ok(await _authorService.GetAuthor(authorId));
+			return Ok(await _authorQueriesService.GetAuthorById(authorId));
 		}
-		catch (EntityNotFoundException)
+		catch (Exception ex)
 		{
-			return NotFound();
+			return this.Problem(ex);
 		}
 	}
 
 
-	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> AddAuthor(AuthorDto author)
 	{
@@ -61,7 +64,6 @@ public class AuthorsController : ControllerBase
 		return Created($"/api/books/{author.Id}", author);
 	}
 
-	[Authorize]
 	[HttpPut]
 	public async Task<IActionResult> EditAuthor(AuthorDto author)
 	{
@@ -82,7 +84,6 @@ public class AuthorsController : ControllerBase
 		}
 	}
 
-	[Authorize]
 	[HttpDelete("{authorId}")]
 	public async Task<IActionResult> Delete(int authorId)
 	{

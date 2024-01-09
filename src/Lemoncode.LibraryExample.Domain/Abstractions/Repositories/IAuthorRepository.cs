@@ -14,11 +14,7 @@ namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 public interface IAuthorRepository
 {
 
-	Task<PaginatedResults<AuthorWithBookCount>> GetAuthors(int pageNumber, int pageSize);
-	
-	Task<AuthorWithBookCount> GetAuthor(int authorId);
-
-	Task<Author> GetAuthorById(int authorId);
+	Task<Author> GetAuthor(int authorId);
 
 	Task<bool> AuthorExists(int authorId);
 

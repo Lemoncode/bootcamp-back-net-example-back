@@ -21,5 +21,4 @@ public class Book : IIdentifiable
 
 	public required ICollection<Review> Reviews { get; set; }
 	
-	public required ICollection<BookDownload> Downloads { get; set; }
 }

@@ -83,9 +83,9 @@ public class Book : Entity
 	}
 
 
-	public void AddReview(int reviewId, string reviewer, ReviewText text, DateTime creationDate, ushort stars)
+	public void AddReview(int reviewId, string reviewer, ReviewText text, ushort stars)
 	{
-		var review = new Review(reviewId, this.Id, reviewer, text, creationDate, stars);
+		var review = new Review(reviewId, this.Id, reviewer, text, stars);
 		this._reviews.Add(review);
 	}
 }
