@@ -1,4 +1,4 @@
-﻿using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
+﻿using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 
 namespace Lemoncode.LibraryExample.Application.Dtos.Queries.Books;
 
@@ -18,5 +18,6 @@ public class BookDto
 
 	public required List<AuthorDto> Authors { get; set; }
 
-	public required List<ReviewDto> Reviews { get; set; }
+	public int ReviewCount{ get; set; }
+
 }

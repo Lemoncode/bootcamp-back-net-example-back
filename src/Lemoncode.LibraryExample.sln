@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Domain", "03. Domain", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Infrastructure", "04. Infrastructure", "{58666C14-64F7-4208-B17B-57B4D132E148}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Crosscutting", "05. Crosscutting", "{8E8D9826-2CEF-4403-B7B3-AD8E4CAE2039}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.DataAccess", "Lemoncode.LibraryExample.DataAccess\Lemoncode.LibraryExample.DataAccess.csproj", "{1C882BD3-E0F4-47E3-81BB-D2C35890C38E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.Domain", "Lemoncode.LibraryExample.Domain\Lemoncode.LibraryExample.Domain.csproj", "{AE43B504-D3CC-461D-92C2-F7D4FA3FCE69}"
@@ -26,15 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.Crosscutting", "Lemoncode.LibraryExample.Crosscutting\Lemoncode.LibraryExample.Crosscutting.csproj", "{5F0B121A-F8ED-40D6-907D-AC0541AEC8B3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.Application", "Lemoncode.LibraryExample.Application\Lemoncode.LibraryExample.Application.csproj", "{2DB31D70-C438-45F5-8015-21B2A60D282E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.FileStorage", "Lemoncode.LibraryExample.FileStorage\Lemoncode.LibraryExample.FileStorage.csproj", "{D501AC8C-AF5B-49C6-93C4-27BBE47EB607}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.AuthPlatform", "Lemoncode.LibraryExample.AuthPlatform\Lemoncode.LibraryExample.AuthPlatform.csproj", "{1A14613D-BF5A-49B5-9955-D41048974FB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemoncode.LibraryExample.Infrastructure", "Lemoncode.LibraryExample.Infrastructure\Lemoncode.LibraryExample.Infrastructure.csproj", "{A62C4EE3-D001-42A0-A28A-757D69D738A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemoncode.LibraryExample.Infrastructure", "Lemoncode.LibraryExample.Infrastructure\Lemoncode.LibraryExample.Infrastructure.csproj", "{A62C4EE3-D001-42A0-A28A-757D69D738A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +54,6 @@ Global
 		{5F544346-6BE3-4227-AAAA-8661BB4A0CAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F544346-6BE3-4227-AAAA-8661BB4A0CAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F544346-6BE3-4227-AAAA-8661BB4A0CAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F0B121A-F8ED-40D6-907D-AC0541AEC8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F0B121A-F8ED-40D6-907D-AC0541AEC8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F0B121A-F8ED-40D6-907D-AC0541AEC8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F0B121A-F8ED-40D6-907D-AC0541AEC8B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DB31D70-C438-45F5-8015-21B2A60D282E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DB31D70-C438-45F5-8015-21B2A60D282E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DB31D70-C438-45F5-8015-21B2A60D282E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,7 +79,6 @@ Global
 		{1C882BD3-E0F4-47E3-81BB-D2C35890C38E} = {58666C14-64F7-4208-B17B-57B4D132E148}
 		{AE43B504-D3CC-461D-92C2-F7D4FA3FCE69} = {97BC1FC3-B185-4DE6-B2F8-C07859D24C09}
 		{5F544346-6BE3-4227-AAAA-8661BB4A0CAB} = {97BC1FC3-B185-4DE6-B2F8-C07859D24C09}
-		{5F0B121A-F8ED-40D6-907D-AC0541AEC8B3} = {8E8D9826-2CEF-4403-B7B3-AD8E4CAE2039}
 		{2DB31D70-C438-45F5-8015-21B2A60D282E} = {58C141C7-89F7-4B4F-9F75-B75CD47B3064}
 		{D501AC8C-AF5B-49C6-93C4-27BBE47EB607} = {58666C14-64F7-4208-B17B-57B4D132E148}
 		{1A14613D-BF5A-49B5-9955-D41048974FB6} = {58666C14-64F7-4208-B17B-57B4D132E148}

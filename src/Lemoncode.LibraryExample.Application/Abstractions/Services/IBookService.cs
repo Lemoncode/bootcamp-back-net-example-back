@@ -1,7 +1,6 @@
 ﻿using FluentValidation.Results;
 
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
-using Lemoncode.LibraryExample.Application.Dtos.Queries.Books;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

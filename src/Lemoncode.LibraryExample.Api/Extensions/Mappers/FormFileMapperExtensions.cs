@@ -11,6 +11,8 @@ internal static class FormFileMapperExtensions
 		var memoryStream = new MemoryStream();
 		var fileStream = formFile.OpenReadStream();
 		await fileStream.CopyToAsync(memoryStream);
+		memoryStream.Seek(0, SeekOrigin.Begin);
+
 		return new BookImageUploadDto
 		{
 			FileName = formFile.FileName,

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lemoncode.LibraryExample.Crosscutting;
+namespace Lemoncode.LibraryExample.Application.Queries.Pagination;
 
 public class PaginatedResults<TItem>
 {

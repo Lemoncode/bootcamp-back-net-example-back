@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 
 using Lemoncode.LibraryExample.DataAccess.Context;
-using Lemoncode.LibraryExample.DataAccess.Repositories.Helpers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Entities;

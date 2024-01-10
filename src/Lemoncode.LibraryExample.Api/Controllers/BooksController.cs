@@ -1,13 +1,10 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Api.Extensions.Mappers;
+using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
-using Lemoncode.LibraryExample.Domain.Exceptions;
 
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 
 namespace Lemoncode.LibraryExample.Api.Controllers;
 
@@ -18,16 +15,25 @@ public class BooksController : ControllerBase
 
 	private readonly IBookService _bookService;
 
-	public BooksController(IBookService bookService)
+	private readonly IBookQueriesService _bookQueriesService;
+	public BooksController(IBookService bookService, IBookQueriesService bookQueriesService)
 	{
-		_bookService = bookService;
+		_bookService = bookService ?? throw new ArgumentNullException(nameof(bookService));
+		_bookQueriesService = bookQueriesService ?? throw new ArgumentNullException(nameof(bookQueriesService));
 	}
 
 	[HttpGet("{bookId}/image")]
-	public IActionResult GetBookImage(int bookId)
+	public async Task<IActionResult> GetBookImage(int bookId)
 	{
-		//return _bookService.GetBookImage(bookId);
-		return Ok();
+		try
+		{
+			var imageInfo = await _bookQueriesService.GetBookImage(bookId);
+			return File(imageInfo.BinaryData, imageInfo.ContentType);
+		}
+		catch (Exception ex)
+		{
+			return this.Problem(ex);
+		}
 	}
 
 	[HttpGet("{bookId}")]
@@ -35,8 +41,7 @@ public class BooksController : ControllerBase
 	{
 		try
 		{
-			//return Ok(await _bookService.GetBook(bookId));
-			return Ok();
+			return Ok(await _bookQueriesService.GetBook(bookId));
 		}
 		catch (Exception ex)
 		{
@@ -49,8 +54,7 @@ public class BooksController : ControllerBase
 	{
 		try
 		{
-			//return Ok(await _bookService.GetNoveltiesAsync(limit));
-			return Ok();
+			return Ok(await _bookQueriesService.GetNoveltiesAsync(limit));
 		}
 		catch (Exception ex)
 		{

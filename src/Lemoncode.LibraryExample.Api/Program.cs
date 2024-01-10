@@ -17,6 +17,7 @@ builder.Services.AddMappings()
 	.AddConfigurations(builder.Configuration)
 	.AddInfraServices()
 	.AddAppServices()
+	.AddUtilities()
 	.AddValidatorsFromAssemblyContaining<AuthorValidator>()
 	.AddControllers();
 

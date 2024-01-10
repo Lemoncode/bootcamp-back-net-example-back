@@ -32,7 +32,7 @@ public class AuthorsController : ControllerBase
 		[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page number must be greater than 1.")] int page = 1,
 		[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page size must be greater than 1.")] int pageSize = 10)
 	{
-		return Ok(await _authorQueriesService.GetAuthors());
+		return Ok(await _authorQueriesService.GetAuthors(page, pageSize));
 	}
 
 

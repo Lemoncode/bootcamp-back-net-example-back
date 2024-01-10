@@ -4,28 +4,29 @@ using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Config;
 using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 using Lemoncode.LibraryExample.Application.Exceptions;
+using Lemoncode.LibraryExample.Application.Queries.Pagination;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 
-namespace Lemoncode.LibraryExample.Application.Queries
+namespace Lemoncode.LibraryExample.Application.Queries;
+
+public class AuthorQueriesService : QueryServiceBase, IAuthorQueriesService
 {
-	public class AuthorQueriesService : IAuthorQueriesService, IDisposable
+
+	public AuthorQueriesService(IOptionsSnapshot<DapperConfig> dapperConfig) : base(dapperConfig)
 	{
+	}
 
-		private readonly SqlConnection _connection;
-		private bool disposedValue;
+	public async Task<PaginatedResults<AuthorWithBookCountDto>> GetAuthors(int pageNumber = 1, int resultsPerPage = 10)
+	{
+		PaginationHelper.CheckPaginationValidity(pageNumber, resultsPerPage);
+		var totalAuthors = await SqlConnection.QuerySingleOrDefaultAsync<int>("SELECT COUNT(1) FROM AUTHORS");
 
-		public AuthorQueriesService(IOptionsSnapshot<DapperConfig> dapperConfig)
+		var result = await PaginationHelper.PaginateAsync(totalAuthors, pageNumber, resultsPerPage, async (offset, fetch) =>
 		{
-			_connection = new SqlConnection(dapperConfig.Value.DefaultConnectionString);
-			_connection.Open();
-		}
-
-		public async Task<List<AuthorWithBookCountDto>> GetAuthors()
-		{
-			return (await _connection.QueryAsync<AuthorWithBookCountDto>(
-				@"SELECT
+			return await SqlConnection.QueryAsync<AuthorWithBookCountDto>(
+			@"SELECT
 				    a.Id,
 				a.FirstName,
 				a.LastName,
@@ -35,13 +36,20 @@ namespace Lemoncode.LibraryExample.Application.Queries
 				LEFT JOIN 
 				AuthorBook ab ON a.Id = ab.AuthorsId
 				GROUP BY 
-				a.Id, a.FirstName, a.LastName")).ToList();
-		}
+				a.Id, a.FirstName, a.LastName
+				ORDER BY a.FirstName, a.LastName
+				OFFSET @offset ROWS
+				FETCH NEXT @fetch ROWS ONLY",
+				new { offset = offset, fetch = fetch });
+		});
 
-		public async Task<AuthorWithBookCountDto> GetAuthorById(int authorId)
-		{
-			var author = await _connection.QuerySingleOrDefaultAsync<AuthorWithBookCountDto>(
-				@"SELECT
+		return result;
+	}
+
+	public async Task<AuthorWithBookCountDto> GetAuthorById(int authorId)
+	{
+		var author = await SqlConnection.QuerySingleOrDefaultAsync<AuthorWithBookCountDto>(
+			@"SELECT
 				    a.Id,
 				a.FirstName,
 				a.LastName,
@@ -54,33 +62,11 @@ namespace Lemoncode.LibraryExample.Application.Queries
 				GROUP BY 
 				a.Id, a.FirstName, a.LastName", new { authorId = authorId });
 
-			if (author is null)
-			{
-				throw new EntityNotFoundException($"Unable to find the author with ID {authorId}.");
-			}
-
-			return author;
-		}
-
-		protected virtual void Dispose(bool disposing)
+		if (author is null)
 		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					_connection.Close();
-					_connection.Dispose();
-				}
-
-				disposedValue = true;
-			}
+			throw new EntityNotFoundException($"Unable to find the author with ID {authorId}.");
 		}
 
-		public void Dispose()
-		{
-			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-			Dispose(disposing: true);
-			GC.SuppressFinalize(this);
-		}
+		return author;
 	}
 }

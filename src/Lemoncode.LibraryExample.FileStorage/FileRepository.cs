@@ -24,7 +24,7 @@ public class FileRepository : IFileRepository
 		ArgumentNullException.ThrowIfNull(fileUri, nameof(fileUri));
 		ValidatePermanentUriSchema(fileUri);
 
-		var filePath = Path.Combine(_config.FileStoragePath + fileUri.PathAndQuery);
+		var filePath = Path.Combine(_config.FileStoragePath, fileUri.PathAndQuery);
 		if (!File.Exists(filePath))
 		{
 			throw new FileNotFoundException($"Unable to find the file with name {fileUri} inside the repo folder.");
