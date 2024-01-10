@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
-using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
 using Lemoncode.LibraryExample.Application.Extensions.Mappers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;

@@ -1,4 +1,4 @@
-﻿using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
+﻿using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
 
 namespace Lemoncode.LibraryExample.Application.Dtos.Queries.Books;
 

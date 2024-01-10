@@ -8,7 +8,7 @@ public interface IFileRepository
 
 	bool TempFileExists(Uri tempFileUri);
 
-	Task<Uri> CopyFileToPermanentLocation(Uri tempFileUri, string permanentFileName);
+	Task<Uri> MoveFileToPermanentLocation(Uri tempFileUri, string permanentFileName);
 
 	bool FileExists(Uri fileUri);
 

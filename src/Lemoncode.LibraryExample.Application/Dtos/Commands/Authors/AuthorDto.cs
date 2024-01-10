@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
+namespace Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
 
 public class AuthorDto
 {

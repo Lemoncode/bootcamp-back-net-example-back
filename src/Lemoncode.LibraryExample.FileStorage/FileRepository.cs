@@ -54,7 +54,7 @@ public class FileRepository : IFileRepository
 	}
 
 
-	public Task<Uri> CopyFileToPermanentLocation(Uri tempFileUri, string permanentFileName)
+	public Task<Uri> MoveFileToPermanentLocation(Uri tempFileUri, string permanentFileName)
 	{
 		ArgumentNullException.ThrowIfNull(tempFileUri, nameof(tempFileUri));
 		ArgumentNullException.ThrowIfNull(permanentFileName, nameof(permanentFileName));
@@ -73,7 +73,7 @@ public class FileRepository : IFileRepository
 
 		var permanentFilePath = Path.Combine(_config.FileStoragePath, permanentFileName);
 
-		File.Copy(tempFilePath, permanentFilePath, true);
+		File.Move(tempFilePath, permanentFilePath, true);
 		return Task.FromResult(new Uri($"{PermanentLocationUriSchema}:{permanentFileName}"));
 	}
 

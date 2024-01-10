@@ -2,7 +2,7 @@
 
 namespace Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 
-public class AddOrEditBookDto
+public class BookDto
 {
 	public enum OperationType
 	{
