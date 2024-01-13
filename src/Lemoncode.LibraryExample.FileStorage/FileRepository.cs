@@ -96,7 +96,7 @@ public class FileRepository : IFileRepository
 
 		File.Delete(filePath);
 	}
-	
+
 	private void ValidatePermanentUriSchema(Uri fileUri)
 	{
 		if (!fileUri.Scheme.Equals(PermanentLocationUriSchema, StringComparison.InvariantCultureIgnoreCase))

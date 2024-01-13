@@ -7,13 +7,10 @@ using Lemoncode.LibraryExample.Application.Dtos.Queries.Books;
 using Lemoncode.LibraryExample.Application.Exceptions;
 using Lemoncode.LibraryExample.FileStorage;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 
 using MimeDetective;
-
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Lemoncode.LibraryExample.Application.Queries;
 

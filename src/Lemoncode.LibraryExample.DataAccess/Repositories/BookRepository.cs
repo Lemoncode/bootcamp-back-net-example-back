@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 
 using Lemoncode.LibraryExample.DataAccess.Context;
 using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
-using Lemoncode.LibraryExample.Domain.Entities;
 using Lemoncode.LibraryExample.Domain.Entities.Books;
 using Lemoncode.LibraryExample.Domain.Exceptions;
 
@@ -40,7 +38,7 @@ public class BookRepository : IBookRepository
 	{
 		ArgumentNullException.ThrowIfNull(book, nameof(book));
 		var dalBook = _mapper.Map<DalEntities.Book>(book);
-		
+
 		var authors = await _context.Authors.Where(a => book.Authors.Contains(a.Id)).ToListAsync();
 
 		if (authors.Count != book.Authors.Count())
@@ -57,7 +55,7 @@ public class BookRepository : IBookRepository
 	{
 		var existingBook = await _context.Books.Include(b => b.Authors)
 			.SingleAsync(b => b.Id == book.Id);
-		
+
 		if (existingBook is null)
 		{
 			throw new EntityNotFoundException($"The book with identifier {book.Id} does not exist in the database.");

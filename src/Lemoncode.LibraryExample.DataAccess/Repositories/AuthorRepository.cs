@@ -40,17 +40,17 @@ public class AuthorRepository : IAuthorRepository
 	{
 		return await _context.Authors.AnyAsync(a => a.Id == authorId);
 	}
-	
+
 	public async Task<bool> AuthorsExist(int[] authorIds)
 	{
 		return (await _context.Authors.CountAsync(a => authorIds.Contains(a.Id))) == authorIds.Length;
 	}
 
-	public Task<IIdentifiable> AddAuthor(Author author)
+	public async Task<IIdentifiable> AddAuthor(Author author)
 	{
 		var dalAuthor = _mapper.Map<DalEntities.Author>(author);
-		_context.Authors.Add(dalAuthor);
-		return Task.FromResult((IIdentifiable)dalAuthor);
+		await _context.Authors.AddAsync(dalAuthor);
+		return (IIdentifiable)dalAuthor;
 	}
 
 	public async Task EditAuthor(Author author)
@@ -60,7 +60,7 @@ public class AuthorRepository : IAuthorRepository
 		{
 			throw new EntityNotFoundException($"The author with ID {author.Id} was not found.");
 		}
-		
+
 		_mapper.Map(author, authorFromDb);
 	}
 
@@ -71,7 +71,7 @@ public class AuthorRepository : IAuthorRepository
 		{
 			throw new EntityNotFoundException($"The author with ID {authorId} was not found.");
 		}
-		
+
 		_context.Authors.Remove(authorFromDb);
 	}
 }

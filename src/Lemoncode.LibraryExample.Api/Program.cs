@@ -1,7 +1,6 @@
 using FluentValidation;
 
 using Lemoncode.LibraryExample.Api.Extensions;
-using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 using Lemoncode.LibraryExample.Application.Validators.Authors;
 using Lemoncode.LibraryExample.DataAccess.Context;
 

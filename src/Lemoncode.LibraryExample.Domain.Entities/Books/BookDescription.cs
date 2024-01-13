@@ -3,17 +3,17 @@
 public record class BookDescription : ValueObject
 {
 
-    public string Description { get; private set; }
+	public string Description { get; private set; }
 
-    public BookDescription(string description)
-    {
-        if (description is null || description.Length < 10 || description.Length > 4000)
-        {
-            AddValidationError("The description should contains between 10 and 4000 characters.");
-        }
+	public BookDescription(string description)
+	{
+		if (description is null || description.Length < 10 || description.Length > 4000)
+		{
+			AddValidationError("The description should contains between 10 and 4000 characters.");
+		}
 
-        Validate();
+		Validate();
 
-        this.Description = description ?? throw new ArgumentNullException(nameof(BookDescription));
-    }
+		this.Description = description ?? throw new ArgumentNullException(nameof(BookDescription));
+	}
 }

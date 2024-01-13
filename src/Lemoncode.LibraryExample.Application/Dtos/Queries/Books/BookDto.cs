@@ -18,6 +18,6 @@ public class BookDto
 
 	public required List<AuthorDto> Authors { get; set; }
 
-	public int ReviewCount{ get; set; }
+	public int ReviewCount { get; set; }
 
 }

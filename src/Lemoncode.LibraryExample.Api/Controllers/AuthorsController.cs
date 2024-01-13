@@ -2,10 +2,7 @@
 using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
-using Lemoncode.LibraryExample.Domain.Exceptions;
 
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +17,7 @@ public class AuthorsController : ControllerBase
 	private readonly IAuthorService _authorService;
 
 	private readonly IAuthorQueriesService _authorQueriesService;
-	
+
 	public AuthorsController(IAuthorService authorService, IAuthorQueriesService authorQueriesService)
 	{
 		_authorService = authorService;
@@ -37,7 +34,7 @@ public class AuthorsController : ControllerBase
 
 
 	[HttpGet("{authorId}")]
-	public async Task<IActionResult> GetAuthor(int authorId)
+	public async Task<IActionResult> GetAuthor([FromRoute] int authorId)
 	{
 		try
 		{
@@ -78,9 +75,9 @@ public class AuthorsController : ControllerBase
 
 			return Ok(author);
 		}
-		catch (EntityNotFoundException)
+		catch (Exception ex)
 		{
-			return NotFound();
+			return this.Problem(ex);
 		}
 	}
 
@@ -91,11 +88,11 @@ public class AuthorsController : ControllerBase
 		{
 			await _authorService.DeleteAuthor(authorId);
 		}
-		catch (EntityNotFoundException)
+		catch (Exception ex)
 		{
-			return NotFound();
+			return this.Problem(ex);
 		}
-		
+
 		return NoContent();
 	}
 }

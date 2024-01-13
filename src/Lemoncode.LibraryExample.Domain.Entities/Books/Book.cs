@@ -1,7 +1,4 @@
-﻿using Lemoncode.LibraryExample.Domain.Entities.Authors;
-using Lemoncode.LibraryExample.Domain.Entities.Exceptions;
-
-namespace Lemoncode.LibraryExample.Domain.Entities.Books;
+﻿namespace Lemoncode.LibraryExample.Domain.Entities.Books;
 
 public class Book : Entity
 {

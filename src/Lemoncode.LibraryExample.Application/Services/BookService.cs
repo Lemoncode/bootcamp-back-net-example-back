@@ -6,7 +6,7 @@ using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 using Lemoncode.LibraryExample.Application.Extensions.Mappers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.FileStorage;
-using Lemoncode.LibraryExample.Domain.Entities.Books;
+
 using AppExceptions = Lemoncode.LibraryExample.Application.Exceptions;
 using DomExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
 

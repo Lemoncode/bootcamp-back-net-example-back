@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Lemoncode.LibraryExample.Application.Queries.Pagination;
+﻿namespace Lemoncode.LibraryExample.Application.Queries.Pagination;
 
 public class PaginatedResults<TItem>
 {

@@ -85,11 +85,11 @@ public class BooksController : ControllerBase
 			operationInfo.ValidationResult.AddToModelState(this.ModelState);
 			return this.ValidationProblem();
 		}
-		return Created($"/api/books/{operationInfo.book}" ,book);
+		return Created($"/api/books/{operationInfo.book}", book);
 	}
 
 	[HttpPut("{bookId}")]
-	public async Task<IActionResult> EditBook([FromRoute]int bookId, BookDto book)
+	public async Task<IActionResult> EditBook([FromRoute] int bookId, BookDto book)
 	{
 		book.Id = bookId;
 		try
@@ -109,7 +109,7 @@ public class BooksController : ControllerBase
 	}
 
 	[HttpDelete("{bookId}")]
-	public async Task<IActionResult> DeleteBook([FromRoute]int bookId)
+	public async Task<IActionResult> DeleteBook([FromRoute] int bookId)
 	{
 		try
 		{

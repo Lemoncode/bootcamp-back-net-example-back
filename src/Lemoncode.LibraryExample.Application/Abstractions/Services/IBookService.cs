@@ -2,9 +2,6 @@
 
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
 namespace Lemoncode.LibraryExample.Application.Abstractions.Services;
 
 public interface IBookService

@@ -1,13 +1,6 @@
 ﻿using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Lemoncode.LibraryExample.Application.Extensions.Mappers;
 
 internal static class AuthorMapperExtensions

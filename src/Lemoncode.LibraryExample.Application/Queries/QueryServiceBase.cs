@@ -3,12 +3,6 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Lemoncode.LibraryExample.Application.Queries;
 
 public abstract class QueryServiceBase : IDisposable
@@ -24,7 +18,7 @@ public abstract class QueryServiceBase : IDisposable
 		ArgumentNullException.ThrowIfNull(dapperConfig, nameof(DapperConfig));
 		_connection = new SqlConnection(dapperConfig.Value.DefaultConnectionString);
 	}
-	
+
 	protected virtual void Dispose(bool disposing)
 	{
 		if (!_disposedValue)

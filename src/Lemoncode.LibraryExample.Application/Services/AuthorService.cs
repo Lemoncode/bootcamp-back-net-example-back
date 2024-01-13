@@ -7,6 +7,9 @@ using Lemoncode.LibraryExample.Application.Extensions.Mappers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
 
+using AppExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
+using DomExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
+
 namespace Lemoncode.LibraryExample.Application.Services;
 
 public class AuthorService : IAuthorService
@@ -16,7 +19,7 @@ public class AuthorService : IAuthorService
 	private IAuthorRepository _authorRepository;
 	private readonly IUnitOfWork _unitOFWork;
 
-	
+
 	public AuthorService(IValidator<AuthorDto> authorDtoValidator, IAuthorRepository authorRepository, IUnitOfWork unitOfWork)
 	{
 		_authorDtoValidator = authorDtoValidator;
@@ -42,15 +45,15 @@ public class AuthorService : IAuthorService
 		var validationResult = _authorDtoValidator.Validate(author);
 		if (validationResult.IsValid)
 		{
-			Author authorEntity = null;
+			Author authorEntity = null!;
 
 			try
 			{
 				authorEntity = await _authorRepository.GetAuthor(author.Id);
 			}
-			catch (Domain.Exceptions.EntityNotFoundException ex)
+			catch (DomExceptions.EntityNotFoundException ex)
 			{
-				throw new Application.Exceptions.EntityNotFoundException($"Unable to find an author with id {author.Id}.", ex);
+				throw new AppExceptions.EntityNotFoundException($"Unable to find an author with id {author.Id}.", ex);
 			}
 
 			authorEntity.UPdateFirstName(author.FirstName);

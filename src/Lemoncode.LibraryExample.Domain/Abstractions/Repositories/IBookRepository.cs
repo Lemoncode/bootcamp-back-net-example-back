@@ -1,5 +1,4 @@
 ﻿using Lemoncode.LibraryExample.Domain.Abstractions.Entities;
-using Lemoncode.LibraryExample.Domain.Entities;
 using Lemoncode.LibraryExample.Domain.Entities.Books;
 
 namespace Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
@@ -14,7 +13,7 @@ public interface IBookRepository
 	Task EditBook(Book book);
 
 	Task DeleteBook(int bookId);
-	
+
 	Task<bool> BookExists(int bookId);
 
 	Task<Review> GetReview(int reviewId);

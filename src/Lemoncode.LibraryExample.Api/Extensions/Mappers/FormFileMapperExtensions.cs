@@ -1,5 +1,4 @@
 ﻿using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
-using Microsoft.AspNetCore.Http;
 
 namespace Lemoncode.LibraryExample.Api.Extensions.Mappers;
 

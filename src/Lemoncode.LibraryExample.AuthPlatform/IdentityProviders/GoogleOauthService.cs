@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+
 using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
 using Lemoncode.LibraryExample.AuthPlatform.Config;
 using Lemoncode.LibraryExample.AuthPlatform.Entities;

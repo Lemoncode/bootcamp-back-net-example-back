@@ -1,6 +1,6 @@
 ﻿namespace Lemoncode.LibraryExample.Application.Queries.Pagination;
 
-public static class PaginationHelper 
+public static class PaginationHelper
 {
 
 	public static void CheckPaginationValidity(int pageNumber, int resultsPerPage)
