@@ -104,10 +104,9 @@ public class BooksController : ControllerBase
 	[HttpPut("{bookId}")]
 	public async Task<IActionResult> EditBook([FromRoute] int bookId, BookDto book)
 	{
-		book.Id = bookId;
 		try
 		{
-			var validationResult = await _bookService.EditBook(book);
+			var validationResult = await _bookService.EditBook(bookId, book);
 			if (!validationResult.IsValid)
 			{
 				validationResult.AddToModelState(this.ModelState);

@@ -72,7 +72,7 @@ public class BookService : IBookService
 			validationResult, result.Id);
 	}
 
-	public async Task<ValidationResult> EditBook(BookDto book)
+	public async Task<ValidationResult> EditBook(int bookId, BookDto book)
 	{
 		ArgumentNullException.ThrowIfNull(book, nameof(book));
 
@@ -81,11 +81,11 @@ public class BookService : IBookService
 		var validationResult = await _bookDtoValidator.ValidateAsync(book);
 		if (validationResult.IsValid)
 		{
-			var bookEntity = await _bookRepository.GetBook(book.Id);
+			var bookEntity = await _bookRepository.GetBook(bookId);
 
 			if (bookEntity is null)
 			{
-				throw new AppExceptions.EntityNotFoundException($"Unable to find a book with ID {book.Id}.");
+				throw new AppExceptions.EntityNotFoundException($"Unable to find a book with ID {bookId}.");
 			}
 
 			bookEntity.UpdateTitle(book.Title);

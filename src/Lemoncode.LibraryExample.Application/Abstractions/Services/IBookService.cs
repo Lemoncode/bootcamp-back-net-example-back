@@ -10,7 +10,7 @@ public interface IBookService
 
 	Task<(ValidationResult ValidationResult, int? book)> AddBook(Dtos.Commands.Books.BookDto book);
 
-	Task<ValidationResult> EditBook(Dtos.Commands.Books.BookDto book);
+	Task<ValidationResult> EditBook(int bookId, Dtos.Commands.Books.BookDto book);
 
 	Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(Dtos.Commands.Books.ReviewDto review, int bookId);
 
