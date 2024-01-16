@@ -15,7 +15,9 @@ public class PaginatedResultsMetadata
 
 	public bool HasNextPage => CurrentPage < TotalPages;
 
-	public int ResultsFrom => ((CurrentPage - 1) * ResultsPerPage) + 1;
+	public int ResultsFrom =>
+		TotalRows == 0 ? 0 :
+		((CurrentPage - 1) * ResultsPerPage) + 1;
 
 	public int ResultsTo
 	{

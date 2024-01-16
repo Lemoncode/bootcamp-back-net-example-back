@@ -124,22 +124,39 @@ public class BookService : IBookService
 		}
 	}
 
-	public async Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(ReviewDto review)
+	public async Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(ReviewDto review, int bookId)
 	{
 		ArgumentNullException.ThrowIfNull(review, nameof(review));
 
 		var validationResult = _reviewDtoValidator.Validate(review);
-		return (validationResult, validationResult.IsValid ?
-			(await _bookRepository.AddReview(review.ConvertToDomainEntity())).Id : null);
+		if (!await _bookRepository.BookExists(bookId))
+		{
+			throw new AppExceptions.EntityNotFoundException($"Unable to find the book with Id {bookId}.");
+		}
+
+		if (!validationResult.IsValid)
+		{
+			return (validationResult, null);
+		}
+
+		var result = await _bookRepository.AddReview(review.ConvertToDomainEntity(bookId));
+		await _unitOfWork.CommitAsync();
+
+		return (validationResult, result.Id);
 	}
 
-	public async Task<ValidationResult> EditReview(ReviewDto review)
+	public async Task<ValidationResult> EditReview(ReviewDto review, int bookId)
 	{
 		ArgumentNullException.ThrowIfNull(review, nameof(review));
 
 		var validationResult = _reviewDtoValidator.Validate(review);
 		if (validationResult.IsValid)
 		{
+			if (!await _bookRepository.BookExists(bookId))
+			{
+				throw new AppExceptions.EntityNotFoundException($"Unable to find the book with Id {bookId}.");
+			}
+
 			var reviewEntity = await _bookRepository.GetReview(review.Id);
 			if (reviewEntity is null)
 			{
@@ -151,16 +168,23 @@ public class BookService : IBookService
 			reviewEntity.UpdateStars(review.Stars);
 
 			await _bookRepository.EditReview(reviewEntity);
+			await _unitOfWork.CommitAsync();
 		}
 
 		return validationResult;
 	}
 
-	public async Task DeleteReview(int reviewId)
+	public async Task DeleteReview(int bookId, int reviewId)
 	{
+		if (!await _bookRepository.BookExists(bookId))
+		{
+			throw new AppExceptions.EntityNotFoundException($"Unable to find a book with Id {bookId}.");
+		}
+		
 		try
 		{
 			await _bookRepository.DeleteReview(reviewId);
+			await _unitOfWork.CommitAsync();
 		}
 		catch (DomExceptions.EntityNotFoundException ex)
 		{

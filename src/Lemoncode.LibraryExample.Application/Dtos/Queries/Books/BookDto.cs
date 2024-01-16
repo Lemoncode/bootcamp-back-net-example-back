@@ -10,8 +10,6 @@ public class BookDto
 
 	public required string Description { get; set; }
 
-	public string? ImageUrl { get; set; }
-
 	public string? ImageAltText { get; set; }
 
 	public DateTime Created { get; set; }

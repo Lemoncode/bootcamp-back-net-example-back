@@ -5,6 +5,7 @@ using Lemoncode.LibraryExample.Application.Config;
 using Lemoncode.LibraryExample.Application.Dtos.Queries.Authors;
 using Lemoncode.LibraryExample.Application.Dtos.Queries.Books;
 using Lemoncode.LibraryExample.Application.Exceptions;
+using Lemoncode.LibraryExample.Application.Queries.Pagination;
 using Lemoncode.LibraryExample.FileStorage;
 
 using Microsoft.Data.SqlClient;
@@ -67,7 +68,7 @@ public class BookQueriesService : QueryServiceBase, IBookQueriesService
 		{
 			throw new EntityNotFoundException($"Unable to find a book with Id {bookId}.");
 		}
-		book.ImageUrl = $"/api/books/{bookId}/image";
+
 		var authors = await SqlConnection.QueryAsync<AuthorDto>(@"SELECT a.Id, a.FirstName, a.LastName 
 			FROM Authors a inner join AuthorBook b on a.Id = b.AuthorsId where b.BooksId=@id",
 			new { id = bookId });
@@ -96,7 +97,7 @@ public class BookQueriesService : QueryServiceBase, IBookQueriesService
 			sql: sqlQuery,
 			map: (book, author) =>
 			{
-				BookDto bookEntry;
+				BookDto? bookEntry;
 
 				if (!booksDictionary.TryGetValue(book.Id, out bookEntry))
 				{
@@ -112,7 +113,57 @@ public class BookQueriesService : QueryServiceBase, IBookQueriesService
 			param: new { N = limit }
 		);
 
-		return books.Distinct().ToList();
+		books = books.Distinct();
+
+		return books.ToList();
 	}
 
+	public async Task<PaginatedResults<ReviewDto>> GetReviews(int bookId, int page, int pageSize)
+	{
+		PaginationHelper.CheckPaginationValidity(page, pageSize);
+		var totalReviews = await SqlConnection.QuerySingleOrDefaultAsync<int>("SELECT COUNT(1) FROM Reviews where BookId=@bookId", new { bookId = bookId });
+		var result = await PaginationHelper.PaginateAsync(totalReviews, page, pageSize, async (offset, fetch) =>
+		{
+			return await SqlConnection.QueryAsync<ReviewDto>(
+			@"SELECT
+				    r.Id,
+				r.BookId,
+				r.Reviewer,
+				r.ReviewText,
+				r.Stars,
+				r.CreationDate
+				FROM
+				Reviews r
+				where r.BookId=@bookId
+				ORDER BY r.CreationDate DESC
+				OFFSET @offset ROWS
+				FETCH NEXT @fetch ROWS ONLY",
+				new { bookId = bookId, offset = offset, fetch = fetch });
+		});
+
+		return result;
+	}
+
+	public async Task<ReviewDto> GetReview(int bookId, int reviewId)
+	{
+		var review = await SqlConnection.QuerySingleOrDefaultAsync<ReviewDto>(@"SELECT
+				    r.Id,
+				r.BookId,
+				r.Reviewer,
+				r.ReviewText,
+				r.Stars,
+				r.CreationDate
+				FROM
+				Reviews r
+				where r.BookId=@bookId
+				and r.Id = @reviewId",
+				new { bookId = bookId, reviewId = reviewId });
+
+		if (review is null)
+		{
+			throw new EntityNotFoundException($"Unable to find a review with Id {reviewId} in the book with Id {bookId}.");
+		}
+
+		return review;
+	}
 }

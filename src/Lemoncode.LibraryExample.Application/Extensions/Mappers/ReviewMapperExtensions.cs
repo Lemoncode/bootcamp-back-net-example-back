@@ -6,8 +6,8 @@ namespace Lemoncode.LibraryExample.Application.Extensions.Mappers;
 internal static class ReviewMapperExtensions
 {
 
-	public static Review ConvertToDomainEntity(this ReviewDto review)
+	public static Review ConvertToDomainEntity(this ReviewDto review, int bookId)
 	{
-		return new Review(review.Id, review.BookId, review.Reviewer, new ReviewText(review.ReviewText), review.Stars);
+		return new Review(review.Id, bookId, review.Reviewer, new ReviewText(review.ReviewText), review.Stars);
 	}
 }

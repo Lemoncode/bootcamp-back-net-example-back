@@ -4,7 +4,10 @@ using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Lemoncode.LibraryExample.Api.Controllers;
 
@@ -16,6 +19,7 @@ public class BooksController : ControllerBase
 	private readonly IBookService _bookService;
 
 	private readonly IBookQueriesService _bookQueriesService;
+
 	public BooksController(IBookService bookService, IBookQueriesService bookQueriesService)
 	{
 		_bookService = bookService ?? throw new ArgumentNullException(nameof(bookService));
@@ -120,5 +124,84 @@ public class BooksController : ControllerBase
 		{
 			return this.Problem(ex);
 		}
+	}
+
+	[HttpGet("{bookId}/reviews")]
+	public async Task<IActionResult> GetReviews(
+	[FromRoute, Required] int bookId,
+	[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page number must be greater than 1.")] int page = 1,
+	[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page size must be greater than 1.")] int pageSize = 10)
+	{
+		try
+		{
+			return Ok(await _bookQueriesService.GetReviews(bookId, page, pageSize));
+		}
+		catch (Exception ex)
+		{
+			return this.Problem(ex);
+		}
+	}
+
+	[HttpGet("{bookId}/reviews/{reviewId}")]
+	public async Task<IActionResult> GetReview([FromRoute]int bookId, [FromRoute]int reviewId)
+	{
+		try
+		{
+			return Ok(await _bookQueriesService.GetReview(bookId, reviewId));
+		}
+		catch (Exception ex)
+		{
+			return this.Problem(ex);
+		}
+	}
+
+
+	[HttpPost("{bookId}/reviews")]
+	public async Task<IActionResult> AddReview([FromRoute]int bookId, [FromBody]ReviewDto review)
+	{
+		var operationInfo = await _bookService.AddReview(review, bookId);
+		if (!operationInfo.ValidationResult.IsValid)
+		{
+			operationInfo.ValidationResult.AddToModelState(this.ModelState);
+			return ValidationProblem();
+		}
+
+		review.Id = operationInfo.ReviewId!.Value;
+		return Created($"/api/books/{bookId}/reviews/{review.Id}", review);
+	}
+
+	[HttpPut("{bookId}/reviews")]
+	public async Task<IActionResult> EditReview([FromRoute]int bookId, [FromBody]ReviewDto review)
+	{
+		try
+		{
+			var validationResult = await _bookService.EditReview(review, bookId);
+			if (!validationResult.IsValid)
+			{
+				validationResult.AddToModelState(this.ModelState);
+				return ValidationProblem();
+			}
+
+			return Ok(review);
+		}
+		catch (Exception ex)
+		{
+			return this.Problem(ex);
+		}
+	}
+
+	[HttpDelete("{bookId}/reviews/{reviewId}")]
+	public async Task<IActionResult> Delete([FromRoute]int bookId, [FromRoute]int reviewId)
+	{
+		try
+		{
+			await _bookService.DeleteReview(bookId, reviewId);
+		}
+		catch (Exception ex)
+		{
+			return this.Problem(ex);
+		}
+
+		return NoContent();
 	}
 }

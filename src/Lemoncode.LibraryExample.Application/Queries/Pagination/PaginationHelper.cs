@@ -17,7 +17,10 @@ public static class PaginationHelper
 
 	public static int CalculateOffset(int resultsPerPage, int pageNumber) => (pageNumber - 1) * resultsPerPage;
 
-	public static async Task<PaginatedResults<TEntity>> PaginateAsync<TEntity>(int totalRows, int pageNumber, int resultsPerPage, Func<int, int, Task<IEnumerable<TEntity>>> queryFunc)
+	public static async Task<PaginatedResults<TEntity>> PaginateAsync<TEntity>(int totalRows,
+																			int pageNumber,
+																			int resultsPerPage,
+																			Func<int, int, Task<IEnumerable<TEntity>>> queryFunc)
 	{
 		var offset = CalculateOffset(resultsPerPage, pageNumber);
 		return new PaginatedResults<TEntity>(await queryFunc(offset, resultsPerPage), pageNumber, resultsPerPage, totalRows);

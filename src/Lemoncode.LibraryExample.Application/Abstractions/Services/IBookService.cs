@@ -12,11 +12,11 @@ public interface IBookService
 
 	Task<ValidationResult> EditBook(Dtos.Commands.Books.BookDto book);
 
-	Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(Dtos.Commands.Books.ReviewDto review);
+	Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(Dtos.Commands.Books.ReviewDto review, int bookId);
 
-	Task<ValidationResult> EditReview(Dtos.Commands.Books.ReviewDto review);
+	Task<ValidationResult> EditReview(Dtos.Commands.Books.ReviewDto review, int bookId);
 
-	Task DeleteReview(int reviewId);
+	Task DeleteReview(int bookId, int reviewId);
 
 	Task DeleteBook(int bookId);
 }
