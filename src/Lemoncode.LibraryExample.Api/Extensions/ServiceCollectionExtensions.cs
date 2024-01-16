@@ -32,6 +32,7 @@ public static class ServiceCollectionExtensions
 	public static IServiceCollection AddMappings(this IServiceCollection serviceCollection)
 	{
 		serviceCollection.AddAutoMapper(
+			typeof(Lemoncode.LibraryExample.Api.MappingProfiles.BookMappingProfile).Assembly,
 			typeof(Lemoncode.LibraryExample.DataAccess.MappingProfiles.AuthorMappingProfile).Assembly);
 
 		return serviceCollection;

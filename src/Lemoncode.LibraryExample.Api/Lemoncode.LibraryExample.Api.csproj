@@ -16,9 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
-	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -32,7 +32,6 @@
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain.Entities\Lemoncode.LibraryExample.Domain.Entities.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain\Lemoncode.LibraryExample.Domain.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.AuthPlatform\Lemoncode.LibraryExample.AuthPlatform.csproj" />
-    <ProjectReference Include="..\Lemoncode.LibraryExample.FileStorage\Lemoncode.LibraryExample.FileStorage.csproj" />
   </ItemGroup>
 
 </Project>

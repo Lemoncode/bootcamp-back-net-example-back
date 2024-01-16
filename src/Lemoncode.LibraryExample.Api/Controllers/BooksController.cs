@@ -1,5 +1,8 @@
-﻿using Lemoncode.LibraryExample.Api.Extensions;
+﻿using AutoMapper;
+
+using Lemoncode.LibraryExample.Api.Extensions;
 using Lemoncode.LibraryExample.Api.Extensions.Mappers;
+using Lemoncode.LibraryExample.Api.Models.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
@@ -20,10 +23,13 @@ public class BooksController : ControllerBase
 
 	private readonly IBookQueriesService _bookQueriesService;
 
-	public BooksController(IBookService bookService, IBookQueriesService bookQueriesService)
+	private readonly IMapper _mapper;
+
+	public BooksController(IBookService bookService, IBookQueriesService bookQueriesService, IMapper mapper)
 	{
 		_bookService = bookService ?? throw new ArgumentNullException(nameof(bookService));
 		_bookQueriesService = bookQueriesService ?? throw new ArgumentNullException(nameof(bookQueriesService));
+		_mapper = mapper;
 	}
 
 	[HttpGet("{bookId}/image")]
@@ -45,7 +51,7 @@ public class BooksController : ControllerBase
 	{
 		try
 		{
-			return Ok(await _bookQueriesService.GetBook(bookId));
+			return Ok(_mapper.Map<Book>(await _bookQueriesService.GetBook(bookId)));
 		}
 		catch (Exception ex)
 		{
@@ -58,7 +64,7 @@ public class BooksController : ControllerBase
 	{
 		try
 		{
-			return Ok(await _bookQueriesService.GetNoveltiesAsync(limit));
+			return Ok(_mapper.Map<IList<Book>>(await _bookQueriesService.GetNoveltiesAsync(limit)));
 		}
 		catch (Exception ex)
 		{

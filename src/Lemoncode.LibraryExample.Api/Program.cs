@@ -22,6 +22,18 @@ builder.Services.AddMappings()
 	.AddValidatorsFromAssemblyContaining<AuthorValidator>()
 	.AddControllers();
 
+// cors
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(
+		policyBuilder =>
+		{
+			policyBuilder.AllowAnyOrigin()
+				   .AllowAnyMethod()
+				   .AllowAnyHeader();
+		});
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer()
 	.AddSwaggerGen();
