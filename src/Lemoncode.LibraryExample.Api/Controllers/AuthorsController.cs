@@ -1,10 +1,9 @@
 ﻿using Lemoncode.LibraryExample.Api.Extensions;
+using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
-using Lemoncode.LibraryExample.Application.Dtos.Authors;
-using Lemoncode.LibraryExample.Domain.Exceptions;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using System.ComponentModel.DataAnnotations;
@@ -18,9 +17,12 @@ public class AuthorsController : ControllerBase
 
 	private readonly IAuthorService _authorService;
 
-	public AuthorsController(IAuthorService authorService)
+	private readonly IAuthorQueriesService _authorQueriesService;
+
+	public AuthorsController(IAuthorService authorService, IAuthorQueriesService authorQueriesService)
 	{
 		_authorService = authorService;
+		_authorQueriesService = authorQueriesService;
 	}
 
 	[HttpGet]
@@ -28,20 +30,20 @@ public class AuthorsController : ControllerBase
 		[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page number must be greater than 1.")] int page = 1,
 		[FromQuery, Range(1, int.MaxValue, ErrorMessage = "The page size must be greater than 1.")] int pageSize = 10)
 	{
-		return Ok(await _authorService.GetAuthors(page, pageSize));
+		return Ok(await _authorQueriesService.GetAuthors(page, pageSize));
 	}
 
 
 	[HttpGet("{authorId}")]
-	public async Task<IActionResult> GetAuthor(int authorId)
+	public async Task<IActionResult> GetAuthor([FromRoute] int authorId)
 	{
 		try
 		{
-			return Ok(await _authorService.GetAuthor(authorId));
+			return Ok(await _authorQueriesService.GetAuthorById(authorId));
 		}
-		catch (EntityNotFoundException)
+		catch (Exception ex)
 		{
-			return NotFound();
+			return this.Problem(ex);
 		}
 	}
 
@@ -76,9 +78,9 @@ public class AuthorsController : ControllerBase
 
 			return Ok(author);
 		}
-		catch (EntityNotFoundException)
+		catch (Exception ex)
 		{
-			return NotFound();
+			return this.Problem(ex);
 		}
 	}
 
@@ -90,11 +92,11 @@ public class AuthorsController : ControllerBase
 		{
 			await _authorService.DeleteAuthor(authorId);
 		}
-		catch (EntityNotFoundException)
+		catch (Exception ex)
 		{
-			return NotFound();
+			return this.Problem(ex);
 		}
-		
+
 		return NoContent();
 	}
 }

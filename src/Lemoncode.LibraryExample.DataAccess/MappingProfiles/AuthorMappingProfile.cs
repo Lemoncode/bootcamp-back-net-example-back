@@ -11,9 +11,8 @@ public class AuthorMappingProfile : Profile
 
 	public AuthorMappingProfile()
 	{
-		CreateMap<DalEntities.Author, Author>();
+		CreateMap<DalEntities.Author, Author>()
+			.ConstructUsing(s => new Author(s.Id, s.FirstName, s.LastName));
 		CreateMap<Author, DalEntities.Author>();
-		CreateMap<DalEntities.Author, AuthorWithBookCount>()
-		.ForMember(m => m.BookCount, opt => opt.MapFrom(s => s.Books.Count()));
 	}
 }

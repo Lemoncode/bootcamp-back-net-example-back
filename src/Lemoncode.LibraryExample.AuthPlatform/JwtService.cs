@@ -14,7 +14,7 @@ public class JwtService(IOptionsSnapshot<JwtConfig> jwtConfig) : IJWTService
 {
 
 	private readonly IOptionsSnapshot<JwtConfig> _jwtConfig = jwtConfig;
-	
+
 	public string GenerateJwtToken(string familyName, string givenName, string emailAddress)
 	{
 		var claims = new[]
@@ -22,7 +22,7 @@ public class JwtService(IOptionsSnapshot<JwtConfig> jwtConfig) : IJWTService
 	new Claim(JwtRegisteredClaimNames.Sub, emailAddress),
 	new Claim(JwtRegisteredClaimNames.FamilyName, familyName),
 	new Claim(JwtRegisteredClaimNames.GivenName, givenName)
-    };
+	};
 
 		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.SigningKey));
 		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

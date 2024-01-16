@@ -9,8 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,15 +28,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lemoncode.LibraryExample.Application\Lemoncode.LibraryExample.Application.csproj" />
-    <ProjectReference Include="..\Lemoncode.LibraryExample.Crosscutting\Lemoncode.LibraryExample.Crosscutting.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.DataAccess\Lemoncode.LibraryExample.DataAccess.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain.Entities\Lemoncode.LibraryExample.Domain.Entities.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.Domain\Lemoncode.LibraryExample.Domain.csproj" />
     <ProjectReference Include="..\Lemoncode.LibraryExample.AuthPlatform\Lemoncode.LibraryExample.AuthPlatform.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\Lemoncode.LibraryExample.FileStorage\Lemoncode.LibraryExample.FileStorage.csproj" />
   </ItemGroup>
 
 </Project>

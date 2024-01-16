@@ -11,9 +11,9 @@ public record class GoogleConfig
 	public required string ClientId { get; set; }
 
 	public required string ClientSecret { get; set; }
-	
-	public required string RedirectUriForCode{ get; set; }
-	
+
+	public required string RedirectUriForCode { get; set; }
+
 	public required string RedirectUriForToken { get; set; }
 
 	public required string[] Scopes { get; set; }

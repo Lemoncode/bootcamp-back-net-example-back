@@ -5,6 +5,8 @@ using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
+using Newtonsoft.Json.Linq;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Lemoncode.LibraryExample.Api.Controllers;
@@ -36,5 +38,12 @@ public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService
 
 		this.Response.Cookies.Append("AuthToken", token, new CookieOptions { HttpOnly = true, Secure = true, Expires = DateTime.Now.AddMinutes(30) });
 		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (!string.IsNullOrWhiteSpace(state) ? state: string.Empty));
+	}
+
+	[HttpGet("logout")]
+	public IActionResult Logout([FromQuery]string? returnUrl)
+	{
+		this.Response.Cookies.Delete("AuthToken");
+		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (returnUrl ?? string.Empty));
 	}
 }

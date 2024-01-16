@@ -34,7 +34,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasIndex("BooksId");
 
-                    b.ToTable("AuthorBook", (string)null);
+                    b.ToTable("AuthorBook");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Author", b =>
@@ -57,7 +57,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Book", b =>
@@ -85,6 +85,10 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<string>("ImageFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -92,38 +96,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books", (string)null);
-                });
-
-            modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.BookDownload", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IPAddress")
-                        .IsRequired()
-                        .HasMaxLength(39)
-                        .HasColumnType("nvarchar(39)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BookDownloads", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Review", b =>
@@ -157,35 +130,12 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Reviews", (string)null);
-                });
+                    b.ToTable("Reviews", t =>
+                        {
+                            t.HasTrigger("trg_UpdateBookAverage");
+                        });
 
-            modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users", (string)null);
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("AuthorBook", b =>
@@ -203,25 +153,6 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.BookDownload", b =>
-                {
-                    b.HasOne("Lemoncode.LibraryExample.DataAccess.Entities.Book", "Book")
-                        .WithMany("Downloads")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lemoncode.LibraryExample.DataAccess.Entities.User", "User")
-                        .WithMany("BookDownloads")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Review", b =>
                 {
                     b.HasOne("Lemoncode.LibraryExample.DataAccess.Entities.Book", "Book")
@@ -235,14 +166,7 @@ namespace Lemoncode.LibraryExample.DataAccess.Migrations
 
             modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.Book", b =>
                 {
-                    b.Navigation("Downloads");
-
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("Lemoncode.LibraryExample.DataAccess.Entities.User", b =>
-                {
-                    b.Navigation("BookDownloads");
                 });
 #pragma warning restore 612, 618
         }

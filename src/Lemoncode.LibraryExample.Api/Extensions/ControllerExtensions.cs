@@ -10,13 +10,13 @@ public static class ControllerExtensions
 {
 	private static readonly Dictionary<Type, HttpStatusCode> ExceptionToHttpCodeMap = new()
 	{
-		[typeof(EntityNotFoundException)] = HttpStatusCode.NotFound	
+		[typeof(EntityNotFoundException)] = HttpStatusCode.NotFound
 	};
-	
+
 	public static ObjectResult Problem(this ControllerBase controller, Exception exception)
 	{
 		HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
-		var exceptionType = typeof(Exception);
+		var exceptionType = exception.GetType();
 		if (ExceptionToHttpCodeMap.ContainsKey(exceptionType))
 		{
 			statusCode = ExceptionToHttpCodeMap[exceptionType];

@@ -1,29 +1,22 @@
 ﻿using FluentValidation.Results;
 
-using Lemoncode.LibraryExample.Application.Dtos.Books;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 
 namespace Lemoncode.LibraryExample.Application.Abstractions.Services;
 
 public interface IBookService
 {
-	FileStreamResult GetBookImage(int bookId);
+	Task<(ValidationResult ValidationResult, Uri? ImageUri)> UploadBookImage(BookImageUploadDto file);
 
-	Task<BookDto> GetBook(int bookId);
+	Task<(ValidationResult ValidationResult, int? book)> AddBook(Dtos.Commands.Books.BookDto book);
 
-	Task<IEnumerable<BookDto>> GetMostDownloadedBooksAsync();
+	Task<ValidationResult> EditBook(Dtos.Commands.Books.BookDto book);
 
-	Task<IEnumerable<BookDto>> GetNoveltiesAsync(int limit);
+	Task<(ValidationResult ValidationResult, int? ReviewId)> AddReview(Dtos.Commands.Books.ReviewDto review, int bookId);
 
-	Task<IEnumerable<BookDto>> GetTopRatedBooksAsync();
+	Task<ValidationResult> EditReview(Dtos.Commands.Books.ReviewDto review, int bookId);
 
-	Task<(ValidationResult ValidationResult, string? ImageId)> UploadBookImage(IFormFile file);
-
-	Task<(ValidationResult ValidationResult, BookDto? book)> AddBook(AddOrEditBookDto book);
-
-	Task<ValidationResult>  EditBook(AddOrEditBookDto book);
+	Task DeleteReview(int bookId, int reviewId);
 
 	Task DeleteBook(int bookId);
 }

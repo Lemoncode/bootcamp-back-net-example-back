@@ -1,15 +1,9 @@
 ﻿using FluentValidation;
 
 using Lemoncode.LibraryExample.Application.Config.Validators;
-using Lemoncode.LibraryExample.Application.Dtos.Books;
+using Lemoncode.LibraryExample.Application.Dtos.Commands.Books;
 
 using Microsoft.Extensions.Options;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemoncode.LibraryExample.Application.Validators.Books
 {
