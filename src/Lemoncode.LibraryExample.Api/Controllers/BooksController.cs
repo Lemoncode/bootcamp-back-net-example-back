@@ -67,6 +67,7 @@ public class BooksController : ControllerBase
 	}
 
 	[HttpPost("newImage")]
+	[Authorize]
 	public async Task<IActionResult> UploadBookImage(IFormFile file)
 	{
 		ArgumentNullException.ThrowIfNull(file, nameof(file));
@@ -80,6 +81,7 @@ public class BooksController : ControllerBase
 		return Ok(new { Id = operationInfo.ImageUri!.ToString() });
 	}
 
+	[Authorize]
 	[HttpPost("")]
 	public async Task<IActionResult> AddBook(BookDto book)
 	{
@@ -92,6 +94,7 @@ public class BooksController : ControllerBase
 		return Created($"/api/books/{operationInfo.book}", book);
 	}
 
+	[Authorize]
 	[HttpPut("{bookId}")]
 	public async Task<IActionResult> EditBook([FromRoute] int bookId, BookDto book)
 	{
@@ -112,6 +115,7 @@ public class BooksController : ControllerBase
 		}
 	}
 
+	[Authorize]
 	[HttpDelete("{bookId}")]
 	public async Task<IActionResult> DeleteBook([FromRoute] int bookId)
 	{
@@ -156,6 +160,7 @@ public class BooksController : ControllerBase
 	}
 
 
+	[Authorize]
 	[HttpPost("{bookId}/reviews")]
 	public async Task<IActionResult> AddReview([FromRoute]int bookId, [FromBody]ReviewDto review)
 	{
@@ -170,6 +175,7 @@ public class BooksController : ControllerBase
 		return Created($"/api/books/{bookId}/reviews/{review.Id}", review);
 	}
 
+	[Authorize]
 	[HttpPut("{bookId}/reviews")]
 	public async Task<IActionResult> EditReview([FromRoute]int bookId, [FromBody]ReviewDto review)
 	{
@@ -190,6 +196,7 @@ public class BooksController : ControllerBase
 		}
 	}
 
+	[Authorize]
 	[HttpDelete("{bookId}/reviews/{reviewId}")]
 	public async Task<IActionResult> Delete([FromRoute]int bookId, [FromRoute]int reviewId)
 	{

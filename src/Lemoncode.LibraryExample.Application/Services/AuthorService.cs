@@ -7,7 +7,7 @@ using Lemoncode.LibraryExample.Application.Extensions.Mappers;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.Domain.Entities.Authors;
 
-using AppExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
+using AppExceptions = Lemoncode.LibraryExample.Application.Exceptions;
 using DomExceptions = Lemoncode.LibraryExample.Domain.Exceptions;
 
 namespace Lemoncode.LibraryExample.Application.Services;
@@ -68,7 +68,14 @@ public class AuthorService : IAuthorService
 
 	public async Task DeleteAuthor(int authorId)
 	{
-		await _authorRepository.DeleteAuthor(authorId);
-		await _unitOFWork.CommitAsync();
+		try
+		{
+			await _authorRepository.DeleteAuthor(authorId);
+			await _unitOFWork.CommitAsync();
+		}
+		catch (DomExceptions.EntityNotFoundException ex)
+		{
+			throw new AppExceptions.EntityNotFoundException(ex.Message, ex);
+		}
 	}
 }

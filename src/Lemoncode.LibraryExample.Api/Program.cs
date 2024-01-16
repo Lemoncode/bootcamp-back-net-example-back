@@ -16,6 +16,8 @@ builder.Services.AddMappings()
 	.AddConfigurations(builder.Configuration)
 	.AddInfraServices()
 	.AddAppServices()
+	.AddApiServices()
+	.AddJwtAuthentication(builder.Configuration)
 	.AddUtilities()
 	.AddValidatorsFromAssemblyContaining<AuthorValidator>()
 	.AddControllers();
@@ -41,7 +43,8 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

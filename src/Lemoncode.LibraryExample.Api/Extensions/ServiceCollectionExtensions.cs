@@ -1,11 +1,23 @@
-﻿using Lemoncode.LibraryExample.Application.Config;
+﻿using Lemoncode.LibraryExample.Api.Config;
+using Lemoncode.LibraryExample.Api.Services;
+using Lemoncode.LibraryExample.Application.Config;
 using Lemoncode.LibraryExample.Application.Config.Validators;
+using Lemoncode.LibraryExample.AuthPlatform.Abstractions;
+using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
+using Lemoncode.LibraryExample.AuthPlatform.Config;
+using Lemoncode.LibraryExample.AuthPlatform.IdentityProviders;
 using Lemoncode.LibraryExample.DataAccess.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
 using Lemoncode.LibraryExample.FileStorage;
 using Lemoncode.LibraryExample.FileStorage.Config;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+using Microsoft.IdentityModel.Tokens;
+
 using MimeDetective;
+
+using System.Text;
 
 using appQueryServiceAbstractions = Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using AppQueryServices = Lemoncode.LibraryExample.Application.Queries;
@@ -32,6 +44,7 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<IAuthorRepository, AuthorRepository>();
 		serviceCollection.AddScoped<IBookRepository, BookRepository>();
 		serviceCollection.AddScoped<IFileRepository, FileRepository>();
+		serviceCollection.AddScoped<IGoogleOauthService, GoogleOauthService>();
 
 		return serviceCollection;
 	}
@@ -52,8 +65,11 @@ public static class ServiceCollectionExtensions
 	{
 		serviceCollection.Configure<BookImageUploadDtoValidatorConfig>(configuration.GetSection(BookImageUploadDtoValidatorConfig.ConfigSection));
 		serviceCollection.Configure<FileStorageRepositoryConfig>(configuration.GetSection(FileStorageRepositoryConfig.ConfigSection));
-
+		serviceCollection.Configure<JwtConfig>(configuration.GetSection(JwtConfig.ConfigSection));
+		serviceCollection.Configure<GoogleConfig>(configuration.GetSection(GoogleConfig.ConfigSection));
+		serviceCollection.Configure<FrontendConfig>(configuration.GetSection(FrontendConfig.ConfigSection));
 		serviceCollection.Configure<DapperConfig>(configuration.GetSection(DapperConfig.ConfigurationSection));
+
 		return serviceCollection;
 	}
 
@@ -68,4 +84,46 @@ public static class ServiceCollectionExtensions
 		return serviceCollection;
 	}
 
+	public static IServiceCollection AddApiServices(this IServiceCollection serviceCollection)
+	{
+		serviceCollection.AddScoped<IJWTService, JwtService>();
+		return serviceCollection;
+	}
+
+	public static IServiceCollection AddJwtAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration)
+	{
+		var jwtConfig = configuration.GetSection(JwtConfig.ConfigSection).Get<JwtConfig>()!;
+		serviceCollection.AddAuthentication(options =>
+		{
+			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+		})
+		.AddJwtBearer(options =>
+		{
+			options.Events = new JwtBearerEvents
+			{
+				OnMessageReceived = (context) =>
+				{
+					var cookie = context.Request.Cookies["AuthToken"];
+					if (cookie != null)
+					{
+						context.Token = cookie;
+					}
+
+					return Task.CompletedTask;
+				}
+			};
+			options.TokenValidationParameters = new TokenValidationParameters
+			{
+				ValidateIssuer = true,
+				ValidateAudience = true,
+				ValidateLifetime = true,
+				ValidateIssuerSigningKey = true,
+				ValidIssuer = jwtConfig.Issuer,
+				ValidAudience = jwtConfig.Audience,
+				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SigningKey))
+			};
+		});
+		return serviceCollection;
+	}
 }

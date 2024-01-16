@@ -3,6 +3,7 @@ using Lemoncode.LibraryExample.Application.Abstractions.Queries;
 using Lemoncode.LibraryExample.Application.Abstractions.Services;
 using Lemoncode.LibraryExample.Application.Dtos.Commands.Authors;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using System.ComponentModel.DataAnnotations;
@@ -47,6 +48,7 @@ public class AuthorsController : ControllerBase
 	}
 
 
+	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> AddAuthor(AuthorDto author)
 	{
@@ -61,6 +63,7 @@ public class AuthorsController : ControllerBase
 		return Created($"/api/books/{author.Id}", author);
 	}
 
+	[Authorize]
 	[HttpPut]
 	public async Task<IActionResult> EditAuthor(AuthorDto author)
 	{
@@ -81,6 +84,7 @@ public class AuthorsController : ControllerBase
 		}
 	}
 
+	[Authorize]
 	[HttpDelete("{authorId}")]
 	public async Task<IActionResult> Delete(int authorId)
 	{
