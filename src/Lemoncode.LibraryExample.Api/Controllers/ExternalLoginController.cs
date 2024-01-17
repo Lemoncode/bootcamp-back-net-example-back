@@ -45,21 +45,20 @@ public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService
 	[HttpGet("initiateMicrosoftSignin")]
 	public IActionResult InitiateMicrosoftSignin([FromQuery] string? returnUrl)
 	{
-		var url = _microsoftOauthService.GetOauthCodeUrl(returnUrl);
+		var url = _MicrosoftOauthService.GetOauthCodeUrl(returnUrl);
 		return Redirect(url);
 	}
 
-	[HttpGet("googleSignin")]
-	public async Task<IActionResult> GoogleSignin([FromQuery, Required] string code, [FromQuery] string? state)
+	[HttpGet("microsoftSignin")]
+	public async Task<IActionResult> MicrosoftSignin([FromQuery, Required] string code, [FromQuery] string? state)
 	{
-		var tokenResponse = await _googleOauthService.GetToken(code);
-		var payload = await _googleOauthService.GetUserInfo(tokenResponse.IdToken);
-		var token = _jwtService.GenerateJwtToken(payload.FamilyName, payload.GivenName, payload.Email);
+		var tokenResponse = await _MicrosoftOauthService.GetToken(code);
+		var userInfo = await _MicrosoftOauthService.GetUserInfo(tokenResponse.AccessToken);
+		var token = _jwtService.GenerateJwtToken(userInfo.Surname, userInfo.GivenName, userInfo.Mail);
 
 		this.Response.Cookies.Append("AuthToken", token, new CookieOptions { HttpOnly = true, Secure = true, Expires = DateTime.Now.AddMinutes(30) });
 		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (!string.IsNullOrWhiteSpace(state) ? state : string.Empty));
 	}
-
 
 	[HttpGet("logout")]
 	public IActionResult Logout([FromQuery]string? returnUrl)

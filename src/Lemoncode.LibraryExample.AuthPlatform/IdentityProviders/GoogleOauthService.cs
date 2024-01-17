@@ -3,6 +3,7 @@
 using Lemoncode.LibraryExample.AuthPlatform.Abstractions;
 using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
 using Lemoncode.LibraryExample.AuthPlatform.Config;
+using Lemoncode.LibraryExample.AuthPlatform.Config.Google;
 using Lemoncode.LibraryExample.AuthPlatform.Exceptions;
 
 using Microsoft.Extensions.Options;
@@ -12,7 +13,7 @@ namespace Lemoncode.LibraryExample.AuthPlatform.IdentityProviders;
 public class GoogleOauthService : OauthService, IGoogleOauthService
 {
 
-	public GoogleOauthService(IOptionsSnapshot<OauthConfig> oauthConfig, IHttpClientFactory httpClientFactory) : base(oauthConfig, httpClientFactory)
+	public GoogleOauthService(IOptionsSnapshot<GoogleOauthConfig> oauthConfig, IHttpClientFactory httpClientFactory) : base(oauthConfig, httpClientFactory)
 	{
 	}
 

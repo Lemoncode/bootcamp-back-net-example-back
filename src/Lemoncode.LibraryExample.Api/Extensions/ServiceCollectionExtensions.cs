@@ -91,7 +91,7 @@ public static class ServiceCollectionExtensions
 
 	public static IServiceCollection AddApiServices(this IServiceCollection serviceCollection)
 	{
-		serviceCollection.AddScoped<IJWTService, JwtService>();
+		serviceCollection.AddSingleton<IJWTService, JwtService>();
 		return serviceCollection;
 	}
 

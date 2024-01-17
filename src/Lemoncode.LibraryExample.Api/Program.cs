@@ -1,6 +1,7 @@
 using FluentValidation;
 
 using Lemoncode.LibraryExample.Api.Extensions;
+using Lemoncode.LibraryExample.Api.Middlewares;
 using Lemoncode.LibraryExample.Application.Validators.Authors;
 using Lemoncode.LibraryExample.DataAccess.Context;
 
@@ -57,6 +58,7 @@ else
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SlidingExpirationMiddleware>();
 app.MapControllers();
 
 app.Run();
