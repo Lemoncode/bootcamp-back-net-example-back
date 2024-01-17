@@ -60,10 +60,10 @@ public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService
 		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (!string.IsNullOrWhiteSpace(state) ? state : string.Empty));
 	}
 
-	[HttpGet("logout")]
-	public IActionResult Logout([FromQuery]string? returnUrl)
+	[HttpPost("logout")]
+	public IActionResult Logout()
 	{
 		this.Response.Cookies.Delete("AuthToken");
-		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (returnUrl ?? string.Empty));
+		return Ok();
 	}
 }
