@@ -1,14 +1,15 @@
 ﻿using Google.Apis.Auth;
 
-using Lemoncode.LibraryExample.AuthPlatform.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
-
-public interface IGoogleOauthService
+namespace Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders
 {
-	string GetOauthCodeUrl(string? returnUrl = null);
-
-	public Task<GoogleCodeExchangeResponse> GetToken(string code);
-
-	public Task<GoogleJsonWebSignature.Payload> ValidateGoogleToken(string token);
+	public interface IGoogleOauthService  : IOauthService
+	{
+		Task<GoogleJsonWebSignature.Payload> GetUserInfo(string token);
+	}
 }

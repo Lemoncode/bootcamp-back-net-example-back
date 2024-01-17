@@ -1,95 +1,22 @@
 ﻿using Google.Apis.Auth;
 
+using Lemoncode.LibraryExample.AuthPlatform.Abstractions;
 using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
 using Lemoncode.LibraryExample.AuthPlatform.Config;
-using Lemoncode.LibraryExample.AuthPlatform.Entities;
 using Lemoncode.LibraryExample.AuthPlatform.Exceptions;
 
 using Microsoft.Extensions.Options;
 
-using System.Net;
-using System.Text.Json;
-
 namespace Lemoncode.LibraryExample.AuthPlatform.IdentityProviders;
 
-public class GoogleOauthService : IGoogleOauthService
+public class GoogleOauthService : OauthService, IGoogleOauthService
 {
 
-	private readonly IOptionsSnapshot<GoogleConfig> _googleConfig;
-
-	private readonly HttpClient _httpClient;
-
-	public GoogleOauthService(IOptionsSnapshot<GoogleConfig> googleConfig, IHttpClientFactory httpClientFactory)
+	public GoogleOauthService(IOptionsSnapshot<OauthConfig> oauthConfig, IHttpClientFactory httpClientFactory) : base(oauthConfig, httpClientFactory)
 	{
-		_googleConfig = googleConfig;
-		_httpClient = httpClientFactory.CreateClient();
 	}
 
-	public string GetOauthCodeUrl(string? returnUrl = null)
-	{
-		var dict = new Dictionary<string, string>
-		{
-			["client_id"] = _googleConfig.Value.ClientId,
-			["redirect_uri"] = _googleConfig.Value.RedirectUriForCode,
-			["response_type"] = "code",
-			["scope"] = string.Join(' ', _googleConfig.Value.Scopes),
-			["access_type"] = "online"
-		};
-		if (!string.IsNullOrWhiteSpace(returnUrl))
-		{
-			dict.Add("state", returnUrl);
-		}
-
-		return GetUrlFromDictionary(_googleConfig.Value.OauthCodeUrl, dict);
-	}
-
-	private string GetUrlFromDictionary(string url, Dictionary<string, string> queryStringParams)
-	{
-		return $"{url}?{string.Join('&', queryStringParams.Select(d => $"{d.Key}={WebUtility.UrlEncode(d.Value)}"))}";
-	}
-
-	public async Task<GoogleCodeExchangeResponse> GetToken(string code)
-	{
-		var content = new FormUrlEncodedContent(new Dictionary<string, string>()
-		{
-			["client_id"] = _googleConfig.Value.ClientId,
-			["client_secret"] = _googleConfig.Value.ClientSecret,
-			["redirect_uri"] = _googleConfig.Value.RedirectUriForToken,
-			["code"] = code,
-			["grant_type"] = "authorization_code"
-		});
-
-		try
-		{
-			var response = await _httpClient.PostAsync(_googleConfig.Value.OauthTokenUrl, content);
-			string? stringContent = null;
-			try
-			{
-				stringContent = await response.Content.ReadAsStringAsync();
-			}
-			catch
-			{
-			}
-
-			if (!response.IsSuccessStatusCode)
-			{
-				throw new GetTokenException($"Error when retrieving the token from Google. Error code: {response.StatusCode}. Error message: {stringContent ?? "Unknown"}");
-			}
-
-			if (string.IsNullOrWhiteSpace(stringContent))
-			{
-				throw new GetTokenException($"Error when retrieving the token from Google. No response from server. Response code: {response.StatusCode}.");
-			}
-
-			return JsonSerializer.Deserialize<GoogleCodeExchangeResponse>(stringContent!)!;
-		}
-		catch (Exception ex)
-		{
-			throw new GetTokenException("Error when retrieving the token from Google.", ex);
-		}
-	}
-
-	public async Task<GoogleJsonWebSignature.Payload> ValidateGoogleToken(string token)
+	public async Task<GoogleJsonWebSignature.Payload> GetUserInfo(string token)
 	{
 		try
 		{

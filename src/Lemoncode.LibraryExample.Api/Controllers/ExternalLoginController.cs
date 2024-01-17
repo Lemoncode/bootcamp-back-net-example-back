@@ -13,7 +13,7 @@ namespace Lemoncode.LibraryExample.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService googleOauthService, IOptionsSnapshot<FrontendConfig> frontendConfig) : Controller
+public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService googleOauthService, IMicrosoftOauthService microsoftOauthService, IOptionsSnapshot<FrontendConfig> frontendConfig) : Controller
 {
 
 	private readonly IJWTService _jwtService = jwtService;
@@ -21,6 +21,8 @@ public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService
 	private readonly IOptionsSnapshot<FrontendConfig> _frontendConfig = frontendConfig;
 	
 	private readonly IGoogleOauthService _googleOauthService = googleOauthService;
+	
+	private readonly IMicrosoftOauthService _MicrosoftOauthService = microsoftOauthService;
 
 	[HttpGet("initiateGoogleSignin")]
 	public IActionResult InitiateGoogleSignin([FromQuery]string? returnUrl)
@@ -33,7 +35,7 @@ public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService
 	public async Task<IActionResult> GoogleSignin([FromQuery, Required] string code, [FromQuery]string? state)
 	{
 		var tokenResponse = await _googleOauthService.GetToken(code);
-		var payload = await _googleOauthService.ValidateGoogleToken(tokenResponse.IdToken);
+		var payload = await _googleOauthService.GetUserInfo(tokenResponse.IdToken);
 		var token = _jwtService.GenerateJwtToken(payload.FamilyName, payload.GivenName, payload.Email);
 
 		this.Response.Cookies.Append("AuthToken", token, new CookieOptions { HttpOnly = true, Secure = true, Expires = DateTime.Now.AddMinutes(30) });

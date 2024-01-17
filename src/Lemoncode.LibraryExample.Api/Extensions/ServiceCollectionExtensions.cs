@@ -5,6 +5,8 @@ using Lemoncode.LibraryExample.Application.Config.Validators;
 using Lemoncode.LibraryExample.AuthPlatform.Abstractions;
 using Lemoncode.LibraryExample.AuthPlatform.Abstractions.IdentityProviders;
 using Lemoncode.LibraryExample.AuthPlatform.Config;
+using Lemoncode.LibraryExample.AuthPlatform.Config.Google;
+using Lemoncode.LibraryExample.AuthPlatform.Config.Microsoft;
 using Lemoncode.LibraryExample.AuthPlatform.IdentityProviders;
 using Lemoncode.LibraryExample.DataAccess.Repositories;
 using Lemoncode.LibraryExample.Domain.Abstractions.Repositories;
@@ -46,6 +48,7 @@ public static class ServiceCollectionExtensions
 		serviceCollection.AddScoped<IBookRepository, BookRepository>();
 		serviceCollection.AddScoped<IFileRepository, FileRepository>();
 		serviceCollection.AddScoped<IGoogleOauthService, GoogleOauthService>();
+		serviceCollection.AddScoped<IMicrosoftOauthService, MicrosoftOauthService>();
 
 		return serviceCollection;
 	}
@@ -67,7 +70,8 @@ public static class ServiceCollectionExtensions
 		serviceCollection.Configure<BookImageUploadDtoValidatorConfig>(configuration.GetSection(BookImageUploadDtoValidatorConfig.ConfigSection));
 		serviceCollection.Configure<FileStorageRepositoryConfig>(configuration.GetSection(FileStorageRepositoryConfig.ConfigSection));
 		serviceCollection.Configure<JwtConfig>(configuration.GetSection(JwtConfig.ConfigSection));
-		serviceCollection.Configure<GoogleConfig>(configuration.GetSection(GoogleConfig.ConfigSection));
+		serviceCollection.Configure<GoogleOauthConfig>(configuration.GetSection(GoogleOauthConfig.ConfigSection));
+		serviceCollection.Configure<MicrosoftOauthConfig>(configuration.GetSection(MicrosoftOauthConfig.ConfigSection));
 		serviceCollection.Configure<FrontendConfig>(configuration.GetSection(FrontendConfig.ConfigSection));
 		serviceCollection.Configure<DapperConfig>(configuration.GetSection(DapperConfig.ConfigurationSection));
 

@@ -2,7 +2,7 @@
 
 namespace Lemoncode.LibraryExample.AuthPlatform.Entities
 {
-	public record class GoogleCodeExchangeResponse
+	public record class OauthCodeExchangeResponse
 	{
 
 		[JsonPropertyName("access_token")]
