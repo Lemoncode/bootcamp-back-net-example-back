@@ -42,6 +42,25 @@ public class ExternalLoginController(IJWTService jwtService, IGoogleOauthService
 		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (!string.IsNullOrWhiteSpace(state) ? state: string.Empty));
 	}
 
+	[HttpGet("initiateMicrosoftSignin")]
+	public IActionResult InitiateMicrosoftSignin([FromQuery] string? returnUrl)
+	{
+		var url = _microsoftOauthService.GetOauthCodeUrl(returnUrl);
+		return Redirect(url);
+	}
+
+	[HttpGet("googleSignin")]
+	public async Task<IActionResult> GoogleSignin([FromQuery, Required] string code, [FromQuery] string? state)
+	{
+		var tokenResponse = await _googleOauthService.GetToken(code);
+		var payload = await _googleOauthService.GetUserInfo(tokenResponse.IdToken);
+		var token = _jwtService.GenerateJwtToken(payload.FamilyName, payload.GivenName, payload.Email);
+
+		this.Response.Cookies.Append("AuthToken", token, new CookieOptions { HttpOnly = true, Secure = true, Expires = DateTime.Now.AddMinutes(30) });
+		return Redirect(_frontendConfig.Value.FrontendBaseUrl + (!string.IsNullOrWhiteSpace(state) ? state : string.Empty));
+	}
+
+
 	[HttpGet("logout")]
 	public IActionResult Logout([FromQuery]string? returnUrl)
 	{
